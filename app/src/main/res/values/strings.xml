@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">YDS</string>
+    <string name="usernameLabel">Username</string>
+    <string name="passwordLabel">Password</string>
+    <string name="repeatPasswordLabel">Repeat Password</string>
+    <string name="signInBtnText">Sign In</string>
+    <string name="signUpBtnText">Sign Up</string>
+    <string name="redirectToSignUpActivityText">Don\'t have an account?</string>
+    <string name="redirectToSignInActivityText">Already have an account?</string>
+    <string name="requiredFieldErrorMessage">This field is required</string>
+    <string name="logout">Logout</string>
+
+    <!-- Toast messages -->
+    <string name="somethingWentWrong">Something went wrong</string>
+    <string name="invalidCredentials">The user name or password is incorrect</string>
+    <string name="passwordAndConfirmDontMatch">Password and confirm are not the same</string>
+
+</resources>
