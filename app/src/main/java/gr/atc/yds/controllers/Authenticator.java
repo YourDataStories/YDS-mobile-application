@@ -1,12 +1,7 @@
 package gr.atc.yds.controllers;
 
-import android.util.Log;
-
-import com.google.gson.Gson;
-
 import gr.atc.yds.clients.HeadsApiClient;
 import gr.atc.yds.enums.Message;
-
 import gr.atc.yds.models.Token;
 
 /**

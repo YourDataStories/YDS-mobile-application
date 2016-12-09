@@ -1,6 +1,7 @@
 package gr.atc.yds.utils;
 
 import android.widget.EditText;
+
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 

@@ -1,10 +1,6 @@
 package gr.atc.yds.clients;
 
-import android.util.Log;
-
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
@@ -90,7 +86,7 @@ public class HeadsApiClient {
                     }
 
                     //Http != 200
-                    else { Log.i(App.logTag, "http not 200");
+                    else {
 
                         JSONObject responseBodyJSONObject = new JSONObject(response.errorBody().string());
                         String error = responseBodyJSONObject.getString("error");

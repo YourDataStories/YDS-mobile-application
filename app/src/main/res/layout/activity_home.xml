@@ -6,6 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="gr.atc.yds.activities.HomeActivity">
 
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -14,5 +15,45 @@
         android:elevation="4dp"
         android:theme="@style/ToolBarTheme"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <!-- List view -->
+    <ListView
+        android:id="@+id/activityHome_projectsListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:background="@drawable/img_background"/>
+
+    <!-- Map fragment -->
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/activityHome_mapFragment"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/my_toolbar"
+        android:visibility="invisible"/>
+
+
+    <!-- No results message -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/noResultsTextView"
+        android:visibility="invisible"
+        android:text="@string/noProjectsFound"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
+
+    <!-- Loader -->
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activityHome_progressBar"
+        android:visibility="invisible"
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true"
+        />
+
 
 </RelativeLayout>

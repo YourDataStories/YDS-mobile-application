@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/list_view"
+        android:icon="@drawable/ic_list"
+        android:title="@string/actionShowList"
+        android:visible="false"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/map_view"
+        android:icon="@drawable/ic_map"
+        android:title="@string/actionShowMap"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/logout"
+        android:title="@string/logout"
+        app:showAsAction="never"/>
+
+</menu>

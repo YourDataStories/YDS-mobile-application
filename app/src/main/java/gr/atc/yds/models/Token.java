@@ -1,10 +1,5 @@
 package gr.atc.yds.models;
 
-import com.google.gson.annotations.Expose;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 /**
  * Created by ipapas on 08/12/16.
  */

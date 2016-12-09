@@ -1,9 +1,8 @@
 package gr.atc.yds.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +10,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import gr.atc.yds.R;
-import gr.atc.yds.controllers.App;
 import gr.atc.yds.controllers.Authenticator;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.utils.Form;

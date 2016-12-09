@@ -14,5 +14,8 @@
     <string name="somethingWentWrong">Something went wrong</string>
     <string name="invalidCredentials">The user name or password is incorrect</string>
     <string name="passwordAndConfirmDontMatch">Password and confirm are not the same</string>
+    <string name="actionShowList">Show list</string>
+    <string name="actionShowMap">Show map</string>
+    <string name="noProjectsFound">No available projects</string>
 
 </resources>

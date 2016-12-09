@@ -17,4 +17,9 @@
         <item name="actionMenuTextColor">@color/textLightColor</item>
     </style>
 
+    <!-- Small label -->
+    <style name="SmallLabel">
+        <item name="android:textSize">12sp</item>
+    </style>
+
 </resources>

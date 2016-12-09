@@ -2,6 +2,7 @@ package gr.atc.yds.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+
 import java.net.InetAddress;
 
 import gr.atc.yds.controllers.App;

@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
-import gr.atc.yds.models.Token;
-
 /**
  * Created by ipapas on 12/8/15.
  */
