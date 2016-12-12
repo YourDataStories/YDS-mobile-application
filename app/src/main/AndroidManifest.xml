@@ -23,12 +23,13 @@
         </activity>
         <activity android:name=".activities.HomeActivity" />
         <activity android:name=".activities.SignInActivity" />
-        <activity android:name=".activities.SignUpActivity"></activity>
+        <activity android:name=".activities.SignUpActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCw5vWZz9jzPES5U3V0Cyy9w2RHxGR6bsQ" />
 
+        <activity android:name=".activities.ProjectActivity"></activity>
     </application>
 
 </manifest>

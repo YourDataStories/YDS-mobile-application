@@ -2,6 +2,7 @@ package gr.atc.yds.utils;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -14,6 +15,11 @@ import gr.atc.yds.enums.Message;
  * Created by ipapas on 07/12/16.
  */
 public class Util {
+
+    //Show log message
+    public static void log(String message){
+        Log.i(App.logTag, message);
+    }
 
     //Show toast message
     public static void showToast(String message){

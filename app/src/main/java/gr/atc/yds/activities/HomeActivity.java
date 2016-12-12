@@ -1,41 +1,39 @@
 package gr.atc.yds.activities;
 
-import android.Manifest;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.gson.Gson;
 
 import java.util.List;
 
 import gr.atc.yds.R;
-import gr.atc.yds.adapters.ProjectListAdapter;
 import gr.atc.yds.clients.YDSApiClient;
-import gr.atc.yds.controllers.App;
 import gr.atc.yds.controllers.Authenticator;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.enums.ViewMode;
+import gr.atc.yds.fragments.ProjectsListFragment;
+import gr.atc.yds.fragments.ProjectsMapFragment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Util;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class HomeActivity extends AppCompatActivity implements ProjectsListFragment.OnProjectsListFragmentListener,
+                                                               ProjectsMapFragment.OnProjectsMapFragmentListener{
 
-    private GoogleMap map;
+    private List<Project> projects;
+    private Gson gson;
     private ViewMode viewMode;
-    private ListView projectsListView;
-    private View projectsMapFragment;
+    private View listFragmentContainer;
+    private View mapFragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +44,20 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        viewMode = ViewMode.LIST_VIEW;
-        projectsListView = (ListView) findViewById(R.id.activityHome_projectsListView);
-        projectsMapFragment = findViewById(R.id.activityHome_mapFragment);
-        projectsMapFragment.setVisibility(View.GONE);
+        //Init
+        projects = null;
+        gson = new Gson();
+        listFragmentContainer = findViewById(R.id.activityHome_listFragment);
+        mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
+        switchToListView();
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        loadProjects();
     }
 
     @Override
@@ -84,7 +91,6 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
                 break;
         }
 
-
         return true;
     }
 
@@ -114,16 +120,11 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onProjectClicked(String projectID){
 
-        //Set map
-        map = googleMap;
-
-        //Show the current location icon
-        if (ContextCompat.checkSelfPermission(App.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-            map.setMyLocationEnabled(true);
-
-        loadProjects();
+        //Show project details
+        Intent i = new Intent(HomeActivity.this, ProjectActivity.class);
+        startActivity(i);
     }
 
     //Load projects
@@ -136,11 +137,9 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onSuccess(Object object) {
 
                 hideLoader();
-                List<Project> projects = (List<Project>) object;
+                projects = (List<Project>) object;
 
-                //Show projects
-                showProjectsOnList(projects);
-                showProjectsOnMap(projects);
+                showProjects();
             }
 
             @Override
@@ -153,54 +152,55 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Switch to list view. Show Projects as list
     private void switchToListView(){
 
-        //Change ViewMode
         viewMode = ViewMode.LIST_VIEW;
+
+        mapFragmentContainer.setVisibility(View.INVISIBLE);
+        listFragmentContainer.setVisibility(View.VISIBLE);
 
         //Refresh toolbar menu, by calling 'onCreateOptionsMenu()'
         invalidateOptionsMenu();
-
-        //Hide map
-        projectsMapFragment.setVisibility(View.GONE);
-
-        //Show list
-        projectsListView.setVisibility(View.VISIBLE);
-
     }
 
     //Switch to map view. Show Projects on map
     private void switchToMapView(){
 
-        //Change ViewMode
         viewMode = ViewMode.MAP_VIEW;
+
+        listFragmentContainer.setVisibility(View.INVISIBLE);
+        mapFragmentContainer.setVisibility(View.VISIBLE);
 
         //Refresh toolbar menu, by calling 'onCreateOptionsMenu()'
         invalidateOptionsMenu();
+    }
 
-        //Hide list
-        projectsListView.setVisibility(View.GONE);
+    //Show projects (inside fragments)
+    private void showProjects(){
 
-        //Show map
-        projectsMapFragment.setVisibility(View.VISIBLE);
+        showProjectsInListFragment();
+        showProjectsInMapFragment();
 
     }
 
-    //Show projects on list
-    private void showProjectsOnList(List<Project> projects){
+    private void showProjectsInListFragment(){
 
-        ListView projectListView = (ListView) findViewById(R.id.activityHome_projectsListView);
-        ProjectListAdapter projectListAdapter = new ProjectListAdapter(getApplicationContext(), projects);
+        ProjectsListFragment projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
 
-        projectListView.setAdapter(projectListAdapter);
-
+        //Attach fragment
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.activityHome_listFragment, projectsListFragment);
+        ft.commit();
     }
 
-    //Show projects on map
-    private void showProjectsOnMap(List<Project> projects){
+    private void showProjectsInMapFragment(){
 
-        if(map == null)
-            return;
+        ProjectsMapFragment projectsMapFragment = ProjectsMapFragment.newInstance(gson.toJson(projects));
 
-
+        //Attach fragment
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.activityHome_mapFragment, projectsMapFragment);
+        ft.commit();
 
     }
 
