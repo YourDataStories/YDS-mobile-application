@@ -9,6 +9,7 @@ import java.util.List;
 
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.models.ProjectDetails;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,21 +30,16 @@ public class YDSApiClient {
     public interface WebService {
 
         //Get projects
-        @GET("584a818a1000009e0efb0181")
+        @GET("584e80f7120000270b3949fb")
         Call<ResponseBody> getProjects();
 
         //Get project details
-        @GET("584152c81000004901bb4c1c")
+        @GET("584eb7c3120000ed0d394aab")
         Call<ResponseBody> getProjectDetails();
 
         //Get project comments
         @GET("58415657100000ae01bb4c23")
         Call<ResponseBody> getProjectComments();
-
-        //Get comment details
-        @GET("584156c0100000df01bb4c25")
-        Call<ResponseBody> getCommentDetails();
-
 
     }
 
@@ -85,6 +81,47 @@ public class YDSApiClient {
                         List<Project> projects = gson.fromJson(projectsString, new TypeToken<List<Project>>(){}.getType());
 
                         responseListener.onSuccess(projects);
+
+                    }
+
+                    //Http != 200
+                    else
+                        responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Get project details
+    public void getProjectDetails(String projectId, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.getProjectDetails();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                try {
+
+                    //Http == 200
+                    if (response.isSuccessful()) {
+
+                        //JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
+                        String responseBodyString = response.body().string();
+
+                        //Get project details
+                        ProjectDetails project = gson.fromJson(responseBodyString, ProjectDetails.class);
+
+                        responseListener.onSuccess(project);
 
                     }
 

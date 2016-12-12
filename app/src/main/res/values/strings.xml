@@ -18,7 +18,13 @@
     <string name="actionShowMap">Show map</string>
     <string name="noProjectsFound">No available projects</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="beneficiaryLabel">Beneficiary</string>
+    <string name="completionOfPaymentsLabel">Completion (of Payments)</string>
+    <string name="projectIdLabel">Project Id</string>
+    <string name="budgetLabel">Budget</string>
+    <string name="startDateLabel">Start Date</string>
+    <string name="endDateLabel">End Date</string>
+    <string name="rateBtnText">Rate it</string>
 
 </resources>

@@ -1,8 +1,10 @@
 package gr.atc.yds.fragments;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+
+
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +20,15 @@ import gr.atc.yds.R;
 import gr.atc.yds.adapters.ProjectListAdapter;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.utils.Util;
 
 public class ProjectsListFragment extends Fragment {
 
-    public interface OnProjectsListFragmentListener {
-        void onProjectClicked(String projectID);
+    public interface Listener {
+        void onProjectItemClicked(String projectID);
     }
 
-    private OnProjectsListFragmentListener listener;
+    private Listener listener;
     private static final String ARG_PARAM1 = "projects";
     private List<Project> projects;
     private View view;
@@ -51,8 +54,9 @@ public class ProjectsListFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnProjectsListFragmentListener) {
-            listener = (OnProjectsListFragmentListener) context;
+
+        if (context instanceof Listener) {
+            listener = (Listener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -104,11 +108,10 @@ public class ProjectsListFragment extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                    if(listener == null)
-                        return;
-
-                    Project clickedProject = projects.get(i);
-                    listener.onProjectClicked(clickedProject.id);
+                    if(listener != null){
+                        Project clickedProject = projects.get(i);
+                        listener.onProjectItemClicked(clickedProject.id);
+                    }
 
                 }
             });

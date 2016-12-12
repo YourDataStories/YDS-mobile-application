@@ -18,7 +18,6 @@ public class Project {
     public Integer num_comments;
     public String title_el;
     public String title_en;
-    public Integer completionOfPayments;
     public Integer countOfRelatedContracts;
     public Long hasBudgetAggregate_aggregatedAmount;
     public String hasRelatedFeature_hasGeometry_asWKT;
@@ -35,6 +34,9 @@ public class Project {
     private List<LatLng> convertStringToPoints(String lineString){
 
         List<LatLng> latLngList = new ArrayList<LatLng>();
+
+        if(lineString == null)
+            return latLngList;
 
         lineString = lineString.replace("LINESTRING","");
         lineString = lineString.replace("POINT","");

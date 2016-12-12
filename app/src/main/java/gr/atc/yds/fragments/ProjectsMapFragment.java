@@ -1,20 +1,23 @@
 package gr.atc.yds.fragments;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -34,19 +37,18 @@ import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Util;
 
 
-public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback {
+public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    public interface OnProjectsMapFragmentListener {
-        void onProjectClicked(String projectID);
+    public interface Listener {
+        void onProjectMarkerClicked(String projectID);
     }
 
-    private OnProjectsMapFragmentListener listener;
+    private Listener listener;
     private static final String ARG_PARAM1 = "projects";
     private List<Project> projects;
     private Map<Marker,Project> projectMarkers;
     private View view;
     private GoogleMap map;
-    private Activity context;
 
     public static ProjectsMapFragment newInstance(String param1) {
 
@@ -70,19 +72,14 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback 
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        this.context = (Activity) context;
+        Util.log("onAttach ProjectsMapFragment");
 
         //Set listener
-        if (context instanceof OnProjectsMapFragmentListener) {
-            listener = (OnProjectsMapFragmentListener) context;
+        if (context instanceof Listener) {
+            listener = (Listener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+            //throw new RuntimeException(context.toString() + " must implement OnFragmentInteractionListener");
         }
-
-        //Init
-        projectMarkers = new HashMap<>();
-
     }
 
     @Override
@@ -103,14 +100,13 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Util.log("onCreateView ProjectsMapFragment");
+
         //Init view
         view = inflater.inflate(R.layout.fragment_projects_map, container, false);
 
-        //Init map
-        MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragmentProjectsMap_mapFragment);
-        mapFragment.getMapAsync(this);
-
-        showProjectsOnMap();
+        projectMarkers = new HashMap<>();
+        attachMap();
 
         return view;
     }
@@ -127,12 +123,46 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback 
 
         Util.log("onMapReady");
 
-        //Set map
-        map = googleMap;
+        initMap(googleMap);
+        showProjectsOnMap();
 
         //Show the current location icon
         if (ContextCompat.checkSelfPermission(App.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             map.setMyLocationEnabled(true);
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+
+        //Get clicked project
+        Project clickedProject = projectMarkers.get(marker);
+
+        if(listener != null)
+            listener.onProjectMarkerClicked(clickedProject.id);
+
+        return false;
+    }
+
+    private void attachMap(){
+
+        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.add(R.id.fragmentProjectsMap_mapFragment, mapFragment);
+        ft.commit();
+
+        mapFragment.getMapAsync(this);
+    }
+
+    private void initMap(GoogleMap googleMap){
+
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(37.983810, 23.727539));
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(6);
+
+        map = googleMap;
+        map.moveCamera(center);
+        map.animateCamera(zoom);
+        map.setOnMarkerClickListener(this);
+
     }
 
     private void showProjectsOnMap(){
@@ -173,7 +203,6 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback 
 
     //Add marker in the middle of each project's polyline
     private Marker addProjectMarkerOnMap(List<LatLng> points){
-
 
         BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         LatLng position = points.get((Integer) (points.size() / 2));

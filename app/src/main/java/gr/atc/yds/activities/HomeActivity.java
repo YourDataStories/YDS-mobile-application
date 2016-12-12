@@ -1,9 +1,9 @@
 package gr.atc.yds.activities;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -26,8 +26,7 @@ import gr.atc.yds.fragments.ProjectsMapFragment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Util;
 
-public class HomeActivity extends AppCompatActivity implements ProjectsListFragment.OnProjectsListFragmentListener,
-                                                               ProjectsMapFragment.OnProjectsMapFragmentListener{
+public class HomeActivity extends AppCompatActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
 
     private List<Project> projects;
     private Gson gson;
@@ -49,14 +48,8 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
         gson = new Gson();
         listFragmentContainer = findViewById(R.id.activityHome_listFragment);
         mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
+
         switchToListView();
-
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
         loadProjects();
     }
 
@@ -120,10 +113,27 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
     }
 
     @Override
-    public void onProjectClicked(String projectID){
+    public void onProjectMarkerClicked(String projectId){
+
+        Util.log("project clicked: " + projectId);
 
         //Show project details
+        startProjectActivity(projectId);
+    }
+
+    @Override
+    public void onProjectItemClicked(String projectId){
+
+        Util.log("project clicked: " + projectId);
+
+        //Show project details
+        startProjectActivity(projectId);
+    }
+
+    private void startProjectActivity(String projectId){
+
         Intent i = new Intent(HomeActivity.this, ProjectActivity.class);
+        i.putExtra("projectId", projectId);
         startActivity(i);
     }
 
@@ -186,7 +196,7 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
         ProjectsListFragment projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
 
         //Attach fragment
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.activityHome_listFragment, projectsListFragment);
         ft.commit();
@@ -197,7 +207,7 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
         ProjectsMapFragment projectsMapFragment = ProjectsMapFragment.newInstance(gson.toJson(projects));
 
         //Attach fragment
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.activityHome_mapFragment, projectsMapFragment);
         ft.commit();
