@@ -13,6 +13,7 @@ import java.util.List;
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.utils.Util;
 
 /**
  * Created by ipapas on 09/12/16.
@@ -24,7 +25,7 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
     private String currency;
 
     public ProjectListAdapter(Context context, List<Project> projects) {
-        super(context, R.layout.list_item_project, projects);
+        super(context, R.layout.item_project, projects);
 
         this.context = context;
 
@@ -40,7 +41,7 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
         {
             //Create view
             LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-            convertView = layoutInflater.inflate(R.layout.list_item_project, parent, false);
+            convertView = layoutInflater.inflate(R.layout.item_project, parent, false);
         }
 
         //Get current project
@@ -57,7 +58,8 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
             //Budget
             if(project.hasBudgetAggregate_aggregatedAmount != null){
                 TextView budgetTextView = (TextView) convertView.findViewById(R.id.listItemProject_budget);
-                budgetTextView.setText(String.format("%d %s",project.hasBudgetAggregate_aggregatedAmount, currency));
+                String budget = Util.convertToString(project.hasBudgetAggregate_aggregatedAmount);
+                budgetTextView.setText(String.format("%s %s",budget, currency));
             }
 
             //Num of comments

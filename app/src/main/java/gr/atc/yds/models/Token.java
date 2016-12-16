@@ -5,17 +5,19 @@ package gr.atc.yds.models;
  */
 public class Token {
 
+    public String owner;
     public String accessToken;
     public Long expireTimestamp; //Seconds
 
     public Token(){
 
     }
-    public Token(String accessToken, Long expiresInSeconds){
+    public Token(String owner, String accessToken, Long expiresInSeconds){
 
         //Current timestamp
         Long currentTimestamp = System.currentTimeMillis()/1000;
 
+        this.owner = owner;
         this.accessToken = accessToken;
         this.expireTimestamp = currentTimestamp + expiresInSeconds;
     }

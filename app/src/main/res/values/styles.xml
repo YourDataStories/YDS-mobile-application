@@ -1,21 +1,35 @@
 <resources>
 
-    <!-- Base application theme -->
+    <!-- Application theme -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textAllCaps">false</item>
-        <item name="android:textColorPrimary">@color/textLightColor</item>
+        <item name="android:textColor">@color/textLightColor</item>
     </style>
 
     <!-- ToolBar theme -->
     <style name="ToolBarTheme" parent="Theme.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="actionMenuTextColor">@color/textLightColor</item>
         <item name="android:textColorPrimary">@color/textLightColor</item>
         <item name="android:textColorSecondary">@color/textLightColor</item>
-        <item name="actionMenuTextColor">@color/textLightColor</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <!-- Rounded input -->
+    <style name="RoundedInput">
+        <item name="android:background">@drawable/shape_rounded_input</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
+
+    <!-- Rounded button -->
+    <style name="RoundedButton">
+        <item name="android:background">@drawable/shape_rounded_button</item>
+        <item name="android:minHeight">37dp</item>
     </style>
 
     <!-- Small label -->

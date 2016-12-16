@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gr.atc.yds.fragments.CommentsFragment">
+    tools:context="gr.atc.yds.fragments.ProjectMapFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Google map -->
+    <FrameLayout
+        android:id="@+id/fragmentProjectMap_mapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>

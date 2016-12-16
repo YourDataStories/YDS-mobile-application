@@ -21,6 +21,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -155,13 +156,14 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
 
     private void initMap(GoogleMap googleMap){
 
-        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(37.983810, 23.727539));
+        CameraUpdate center = CameraUpdateFactory.newLatLng(new LatLng(37.983810, 23.727539)); //Athens
         CameraUpdate zoom = CameraUpdateFactory.zoomTo(6);
 
         map = googleMap;
         map.moveCamera(center);
         map.animateCamera(zoom);
         map.setOnMarkerClickListener(this);
+        map.setMapStyle(MapStyleOptions.loadRawResourceStyle(App.getContext(), R.raw.map_style));
 
     }
 
@@ -188,7 +190,7 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
 
         int color =  ContextCompat.getColor(App.getContext(), R.color.colorPrimary);
         PolylineOptions polylineOptions = new PolylineOptions().color(color)
-                .width(25)
+                .width(15)
                 .geodesic(false)
                 .addAll(points);
 

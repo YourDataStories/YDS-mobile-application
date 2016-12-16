@@ -9,6 +9,12 @@ import gr.atc.yds.models.Token;
  */
 public class Authenticator {
 
+    StorageController storage;
+
+    public Authenticator(){
+        storage = new StorageController();
+    }
+
     //Interfaces
     public interface ResponseListener {
         public void onSuccess();
@@ -19,7 +25,6 @@ public class Authenticator {
     public boolean isUserLoggedIn(){
 
         //Get potential saved token
-        StorageController storage = new StorageController();
         Token token = (Token) storage.loadData("token", Token.class);
 
         //Token does not exist
@@ -27,10 +32,26 @@ public class Authenticator {
             return false;
 
         //Token is expired
-        if(token.isExpired())
+        if(token.isExpired()){
+            signOut();
             return false;
+        }
+
 
         return true;
+    }
+
+    //Get logged-in user's username
+    public String getUsername(){
+
+        if(isUserLoggedIn()){
+
+            Token token = (Token) storage.loadData("token", Token.class);
+            return token.owner;
+        }
+
+        return null;
+
     }
 
     //Sign In
@@ -57,12 +78,15 @@ public class Authenticator {
     }
 
     //Sign Out
-    public void signOut(final ResponseListener responseListener){
+    public void signOut(){
 
         //Delete saved token
         StorageController storage = new StorageController();
         storage.deleteData("token");
+    }
+    public void signOut(final ResponseListener responseListener){
 
+        signOut();
         responseListener.onSuccess();
 
     }

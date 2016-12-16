@@ -7,6 +7,11 @@ import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.enums.Message;
@@ -48,9 +53,30 @@ public class Util {
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
-    //Convert db to pixels
-    public static int convertDpToPx(int dipValue) {
-        DisplayMetrics metrics = App.getContext().getResources().getDisplayMetrics();
-        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics));
+    //Beautify date
+    public static String beautifyDate(String date){
+
+        if(date == null)
+            return null;
+
+        String beautifiedDate = null;
+        String[] splittedDate = date.split("T")[0].split("-");
+
+        if(splittedDate.length == 3){
+            beautifiedDate = String.format("%s/%s/%s", splittedDate[2], splittedDate[1], splittedDate[0]);
+        }
+
+        return beautifiedDate;
     }
+
+    //Convert Long to String
+    public static String convertToString(Long number){
+
+        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        String numberAsString = decimalFormat.format(number);
+
+        return numberAsString;
+    }
+
+
 }

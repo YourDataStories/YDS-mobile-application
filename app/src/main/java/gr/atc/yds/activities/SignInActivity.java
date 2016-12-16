@@ -24,7 +24,6 @@ public class SignInActivity extends AppCompatActivity {
 
         setUIEventListeners();
 
-
     }
 
     //Set UI event listeners

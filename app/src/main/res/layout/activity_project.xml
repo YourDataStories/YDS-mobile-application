@@ -5,8 +5,11 @@
     android:id="@+id/activity_project"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="gr.atc.yds.activities.ProjectActivity">
+    tools:context="gr.atc.yds.activities.ProjectActivity"
+    android:textColor="@color/textLightColor"
+    android:background="@drawable/img_background">
 
+    <!-- Toolbar -->
     <android.support.v7.widget.Toolbar
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
@@ -17,279 +20,21 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <!-- Content -->
-    <ScrollView
+    <ListView
+        android:id="@+id/activityProject_commentListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/my_toolbar"
-        android:padding="16dp"
-        android:background="@drawable/img_background">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Map fragment -->
-            <FrameLayout
-                android:id="@+id/activityProject_mapFragment"
-                android:layout_width="match_parent"
-                android:layout_height="120dp" />
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/activityProject_title"
-                    app:layout_constraintRight_toLeftOf="@+id/activityProject_collapseBtn"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginRight="8dp"
-                    android:text="Title" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_up_arrow"
-                    android:id="@+id/activityProject_collapseBtn"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:text="Description"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/activityProject_description"
-                    app:layout_constraintLeft_toLeftOf="@+id/activityProject_title"
-                    android:layout_marginEnd="16dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="24dp"
-                    app:layout_constraintTop_toBottomOf="@+id/activityProject_title" />
-
-            </android.support.constraint.ConstraintLayout>
-
-            <!-- Beneficiary -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border">
-
-                <TextView
-                    android:id="@+id/beneficiaryLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/beneficiaryLabel"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:id="@+id/activityProject_beneficiary"
-                    android:layout_below="@+id/beneficiaryLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="ΕΓΝΑΤΙΑ ΟΔΟΣ ΑΕ"/>
-
-            </RelativeLayout>
-
-            <!-- Completion of payments -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border">
-
-                <TextView
-                    android:id="@+id/completionOfPaymentsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/completionOfPaymentsLabel"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:id="@+id/activityProject_completionOfPayments"
-                    android:layout_below="@+id/completionOfPaymentsLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="76"/>
-
-            </RelativeLayout>
-
-            <!-- Project Id -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border">
-
-                <TextView
-                    android:id="@+id/projectIdLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/projectIdLabel"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:id="@+id/activityProject_projectId"
-                    android:layout_below="@+id/projectIdLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="394834"/>
-
-            </RelativeLayout>
-
-            <!-- Start/end date -->
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border">
-
-                <TextView
-                    android:text="@string/startDateLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/startDateLabel"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:text="30/7/2009"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/activityProject_startDate"
-                    app:layout_constraintLeft_toLeftOf="@+id/startDateLabel"
-                    app:layout_constraintTop_toBottomOf="@+id/startDateLabel" />
-
-                <TextView
-                    android:text="@string/endDateLabel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/endDateLabel"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:text="31/12/2015"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/activityProject_endDate"
-                    app:layout_constraintRight_toRightOf="@+id/endDateLabel"
-                    app:layout_constraintTop_toBottomOf="@+id/endDateLabel" />
-            </android.support.constraint.ConstraintLayout>
-
-            <!-- Budget -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/shape_border">
-
-                <TextView
-                    android:id="@+id/budgetLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/budgetLabel"
-                    style="@style/SmallLabel"/>
-
-                <TextView
-                    android:id="@+id/activityProject_budgetLabel"
-                    android:layout_below="@+id/budgetLabel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="14.500.243 €"/>
-
-            </RelativeLayout>
-
-            <!-- Rating -->
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp">
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/numOfRatinsRelativeLayout"
-                    android:layout_centerHorizontal="true">
-
-                    <TextView
-                        android:text="Ratings:"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/ratingsLabel"
-                        style="@style/SmallLabel"/>
-
-                    <TextView
-                        android:text="16"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/activityProject_numOfRatings"
-                        android:layout_toRightOf="@+id/ratingsLabel"
-                        android:layout_marginLeft="2dp"
-                        android:textStyle="bold"/>
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/ratingRelativeLayout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/numOfRatinsRelativeLayout"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="4dp">
-
-
-                    <RatingBar
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:numStars="5"
-                        android:rating="3"
-                        style="?android:attr/ratingBarStyleIndicator"
-                        android:id="@+id/ratingBar" />
-
-                    <TextView
-                        android:id="@+id/activityProject_rating"
-                        android:text="3,2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/ratingBar"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="6dp"
-                        android:textSize="22sp"
-                        android:textStyle="bold"/>
-                </RelativeLayout>
-
-                <Button
-                    android:layout_below="@+id/ratingRelativeLayout"
-                    android:text="@string/rateBtnText"
-                    android:layout_centerHorizontal="true"
-                    android:layout_width="230dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/activityProject_rateBtn" />
-
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-
-
-    </ScrollView>
+        android:layout_below="@+id/my_toolbar">
+    </ListView>
 
     <!-- Loader -->
-
     <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/activityHome_progressBar"
+        android:id="@+id/activityProject_progressBar"
         android:visibility="invisible"
         android:layout_margin="20dp"
         android:layout_centerInParent="true"
         />
-
-
 
 </RelativeLayout>

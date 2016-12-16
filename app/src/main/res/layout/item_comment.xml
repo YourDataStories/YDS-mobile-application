@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:layout_marginBottom="10dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/common_google_signin_btn_icon_dark_focused"
+        android:id="@+id/commentType"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:text="This road is amazing, i can speed up to 200mph and my brand new porce feels amazing"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment"
+        android:textStyle="normal|bold"
+        android:textSize="15sp"
+        android:layout_width="294dp"
+        android:layout_marginStart="10dp"
+        app:layout_constraintLeft_toRightOf="@+id/commentType"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintTop_toTopOf="@+id/commentType" />
+
+    <TextView
+        android:text="Amanda Sobral"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/commenterName"
+        android:fontFamily="sans-serif"
+        app:layout_constraintLeft_toLeftOf="@+id/comment"
+        android:layout_marginTop="7dp"
+        app:layout_constraintTop_toBottomOf="@+id/comment" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/commenterName"
+        android:layout_marginLeft="8dp"
+        android:id="@+id/relativeLayout"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="@+id/commenterName"
+        app:layout_constraintBottom_toBottomOf="@+id/commenterName">
+
+        <ImageView
+            android:layout_width="5dp"
+            app:srcCompat="@drawable/ic_circle"
+            android:id="@+id/circle"
+            android:layout_height="5dp"
+            tools:layout_editor_absoluteY="74dp"
+            tools:layout_editor_absoluteX="178dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:text="Πριν από 1 μήνα"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/timeago"
+        app:layout_constraintTop_toTopOf="@+id/commenterName"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toRightOf="@+id/relativeLayout"
+        android:layout_marginLeft="8dp" />
+
+
+    <!-- Thumbs up -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:id="@+id/thumbsUp"
+        android:layout_height="22dp"
+        app:layout_constraintLeft_toLeftOf="@+id/commenterName"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/commenterName"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical">
+
+        <ImageView
+            app:srcCompat="@drawable/ic_thumbs_up"
+            android:id="@+id/thumbsUpBtn"
+            android:layout_height="18dp"
+            android:layout_width="18dp" />
+
+        <TextView
+            android:text="12"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thumbsUpNumber"
+            android:layout_marginLeft="5dp" />
+
+    </LinearLayout>
+
+    <!-- Thumbs down -->
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:id="@+id/thumbsDown"
+        android:layout_marginStart="32dp"
+        app:layout_constraintLeft_toRightOf="@+id/thumbsUp"
+        android:layout_marginLeft="32dp"
+        app:layout_constraintTop_toTopOf="@+id/thumbsUp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_height="22dp"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_height="18dp"
+            app:srcCompat="@drawable/ic_thumbs_down"
+            android:id="@+id/thumbsDownBtn"
+            android:layout_width="18dp" />
+
+        <TextView
+            android:text="2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thumbsDownNumber"
+            android:layout_marginLeft="5dp" />
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

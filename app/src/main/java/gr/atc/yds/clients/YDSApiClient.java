@@ -8,14 +8,17 @@ import org.json.JSONObject;
 import java.util.List;
 
 import gr.atc.yds.enums.Message;
+import gr.atc.yds.models.Comment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.models.ProjectDetails;
+import gr.atc.yds.utils.Util;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 /**
  * Created by ipapas on 08/12/16.
@@ -34,12 +37,29 @@ public class YDSApiClient {
         Call<ResponseBody> getProjects();
 
         //Get project details
-        @GET("584eb7c3120000ed0d394aab")
+        @GET("5853cbec0f00000e0dc731de")
         Call<ResponseBody> getProjectDetails();
 
         //Get project comments
-        @GET("58415657100000ae01bb4c23")
+        @GET("5853ccae0f00001c0dc731e2")
         Call<ResponseBody> getProjectComments();
+
+        //Rate project
+        @POST("584ff7282a0000dd20e8f571")
+        Call<ResponseBody> rateProject();
+
+        //Comment project
+        @POST("585158ec0f00002f0a046cc4")
+        Call<ResponseBody> commentProject();
+
+        //Like comment
+        @POST("585158ec0f00002f0a046cc4")
+        Call<ResponseBody> likeComment();
+
+        //Dislike comment
+        @POST("585158ec0f00002f0a046cc4")
+        Call<ResponseBody> dislikeComment();
+
 
     }
 
@@ -136,6 +156,143 @@ public class YDSApiClient {
                 }
             }
 
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Get project comments
+    public void getProjectComments(String projectId, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.getProjectComments();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                try {
+
+                    //Http == 200
+                    if (response.isSuccessful()) {
+
+                        JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
+
+                        //Get comments
+                        String commentsString = responseBodyJSONObject.getJSONObject("response").getString("comments");
+                        List<Comment> comments = gson.fromJson(commentsString, new TypeToken<List<Comment>>(){}.getType());
+
+                        responseListener.onSuccess(comments);
+
+                    }
+
+                    //Http != 200
+                    else
+                        responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Rate project
+    public void rateProject(String projectId, float rating, String username, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.rateProject();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                //Http == 200
+                if (response.isSuccessful())
+                    responseListener.onSuccess(null);
+
+                //Http != 200
+                else
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Comment project
+    public void commentProject(String projectId, Comment comment, String username, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.commentProject();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                //Http == 200
+                if (response.isSuccessful())
+                    responseListener.onSuccess(null);
+
+                //Http != 200
+                else
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Like comment
+    public void likeComment(int commentId, String username, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.likeComment();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                //Http == 200
+                if (response.isSuccessful())
+                    responseListener.onSuccess(null);
+
+                    //Http != 200
+                else
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+            }
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+            }
+        });
+    }
+
+    //Dislike comment
+    public void dislikeComment(int commentId, String username, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.dislikeComment();
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                //Http == 200
+                if (response.isSuccessful())
+                    responseListener.onSuccess(null);
+
+                    //Http != 200
+                else
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+            }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 responseListener.onFailure(Message.SOMETHING_WENT_WRONG);

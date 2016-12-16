@@ -26,6 +26,18 @@ public class Project {
 
     }
 
+    //Rate project
+    public void rate(float rating){
+
+        if(rating < 0 || average_rating == null || num_ratings == null)
+            return;
+
+        average_rating = ((num_ratings * average_rating) + rating) / (num_ratings + 1);
+
+        num_ratings++;
+    }
+
+    //Get project's LatLng points
     public List<LatLng> getPoints(){
         return convertStringToPoints(hasRelatedFeature_hasGeometry_asWKT);
     }

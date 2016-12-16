@@ -9,6 +9,8 @@
     <string name="redirectToSignInActivityText">Already have an account?</string>
     <string name="requiredFieldErrorMessage">This field is required</string>
     <string name="logout">Logout</string>
+    <string name="splashText">Making sense of open government data and following public money</string>
+    <string name="footerText">This project is co-funded by the European Union under Horizon 2020</string>
 
     <!-- Toast messages -->
     <string name="somethingWentWrong">Something went wrong</string>
@@ -16,7 +18,9 @@
     <string name="passwordAndConfirmDontMatch">Password and confirm are not the same</string>
     <string name="actionShowList">Show list</string>
     <string name="actionShowMap">Show map</string>
+    <string name="actionAdd">Add</string>
     <string name="noProjectsFound">No available projects</string>
+    <string name="alreadyReacted">You have already reacted to this comment</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="beneficiaryLabel">Beneficiary</string>
@@ -26,5 +30,8 @@
     <string name="startDateLabel">Start Date</string>
     <string name="endDateLabel">End Date</string>
     <string name="rateBtnText">Rate it</string>
+    <string name="seeAllCommentsBtnText">See all comments</string>
+    <string name="addCommentHint">Add a public comment ...</string>
+    <string name="commentsLabel">Comments:</string>
 
 </resources>

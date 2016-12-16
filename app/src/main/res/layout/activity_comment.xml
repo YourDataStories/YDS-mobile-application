@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_comment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="gr.atc.yds.activities.CommentActivity"
+    android:background="@color/colorSecondary">
+
+    <!-- Toolbar -->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/my_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ToolBarTheme"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+    <EditText
+        android:hint="@string/addCommentHint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_toolbar"
+        android:layout_centerHorizontal="true"
+        android:maxLines="4"
+        android:lines="4"
+        android:gravity="top"
+        android:id="@+id/activityComment_commentEditText"
+        android:padding="10dp"
+        android:layout_margin="16dp"
+        style="@style/RoundedInput"/>
+
+    <!-- Loader -->
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/activityComment_progressBar"
+        android:visibility="invisible"
+        android:layout_margin="20dp"
+        android:layout_centerInParent="true"
+        />
+
+
+</RelativeLayout>

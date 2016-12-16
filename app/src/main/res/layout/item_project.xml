@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="16dp"
@@ -45,13 +46,13 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:layout_width="20dp"
-        app:srcCompat="@color/colorSecondary"
+        android:layout_width="23dp"
         android:id="@+id/listItemProject_commentsIcon"
-        android:layout_height="20dp"
+        android:layout_height="23dp"
         app:layout_constraintLeft_toLeftOf="@+id/listItemProject_budget"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@+id/listItemProject_budget" />
+        app:layout_constraintTop_toBottomOf="@+id/listItemProject_budget"
+        android:src="@drawable/ic_comment"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -63,7 +64,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/listItemProject_commentsIcon"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:textSize="11sp"
+        android:textSize="10sp"
         android:padding="2dp"
         android:textStyle="bold"/>
 
@@ -74,7 +75,7 @@
         android:id="@+id/listItemProject_rating"
         app:layout_constraintBottom_toBottomOf="@+id/listItemProject_commentsIcon"
         app:layout_constraintRight_toRightOf="@+id/listItemProject_title"
-        android:textSize="17sp"
+        android:textSize="19sp"
         android:textStyle="bold"/>
 
     <RatingBar
@@ -85,30 +86,29 @@
         android:rating="3"
         style="?android:attr/ratingBarStyleSmall"
         app:layout_constraintRight_toLeftOf="@+id/listItemProject_rating"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/listItemProject_rating"
-        android:isIndicator="true"/>
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp" />
 
     <TextView
         android:text="756"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listItemProject_numOfRatings"
-        app:layout_constraintBottom_toTopOf="@+id/listItemProject_rating"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintRight_toRightOf="@+id/listItemProject_rating"
         android:textSize="12sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        app:layout_constraintRight_toRightOf="@+id/listItemProject_rating"
+        app:layout_constraintBottom_toTopOf="@+id/listItemProject_rating" />
 
     <TextView
         android:text="Total Ratings:"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/listItemProject_numOfRatingsLabel"
-        app:layout_constraintRight_toLeftOf="@+id/listItemProject_numOfRatings"
-        android:layout_marginEnd="4dp"
-        android:layout_marginRight="4dp"
+        style="@style/SmallLabel"
         app:layout_constraintBottom_toBottomOf="@+id/listItemProject_numOfRatings"
-        style="@style/SmallLabel"/>
+        app:layout_constraintRight_toLeftOf="@+id/listItemProject_numOfRatings"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp" />
 </android.support.constraint.ConstraintLayout>

@@ -4,6 +4,7 @@
     <string name="HEADS_BASE_URL">http://atc-dnn.atc.gr/heads/</string>
     <string name="LOG_TAG">yds</string>
     <string name="CURRENCY">€</string>
+    <integer name="COLLAPSED_DESCRIPTION_LENGTH">120</integer>
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCI4x40KsrRb8-9X0ZH0rlhQT8fz8DIiWs

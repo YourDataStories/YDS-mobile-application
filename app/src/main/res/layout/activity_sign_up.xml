@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="gr.atc.yds.activities.SignUpActivity">
+    tools:context="gr.atc.yds.activities.SignUpActivity"
+    android:background="@drawable/img_background">
 
     <LinearLayout
         android:orientation="vertical"
@@ -21,7 +22,9 @@
             android:inputType="textPersonName"
             android:hint="@string/usernameLabel"
             android:ems="10"
-            android:id="@+id/activitySignUp_username" />
+            android:layout_marginBottom="10dp"
+            android:id="@+id/activitySignUp_username"
+            style="@style/RoundedInput"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -29,7 +32,9 @@
             android:inputType="textPassword"
             android:hint="@string/passwordLabel"
             android:ems="10"
-            android:id="@+id/activitySignUp_password" />
+            android:layout_marginBottom="10dp"
+            android:id="@+id/activitySignUp_password"
+            style="@style/RoundedInput"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -37,7 +42,8 @@
             android:inputType="textPassword"
             android:hint="@string/repeatPasswordLabel"
             android:ems="10"
-            android:id="@+id/activitySignUp_repeatPassword" />
+            android:id="@+id/activitySignUp_repeatPassword"
+            style="@style/RoundedInput"/>
 
         <Button
             android:layout_width="match_parent"
@@ -45,7 +51,7 @@
             android:text="@string/signUpBtnText"
             android:id="@+id/activitySignUp_signUpBtn"
             android:layout_marginTop="20dp"
-            style="@style/Widget.AppCompat.Button.Colored"/>
+            style="@style/RoundedButton"/>
 
         <RelativeLayout
             android:layout_width="wrap_content"

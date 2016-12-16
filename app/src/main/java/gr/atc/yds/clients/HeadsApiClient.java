@@ -63,7 +63,7 @@ public class HeadsApiClient {
     }
 
     //Sign In
-    public void signIn(String username, String password, final ResponseListener responseListener) {
+    public void signIn(final String username, String password, final ResponseListener responseListener) {
 
         Call<ResponseBody> call = service.signIn(username, password, password, "password");
         call.enqueue(new Callback<ResponseBody>() {
@@ -79,7 +79,7 @@ public class HeadsApiClient {
                         //Get token
                         String accessToken = responseBodyJSONObject.getString("access_token");
                         Long expiresIn = responseBodyJSONObject.getLong("expires_in");
-                        Token token = new Token(accessToken, expiresIn);
+                        Token token = new Token(username, accessToken, expiresIn);
 
                         responseListener.onSuccess(token);
 
