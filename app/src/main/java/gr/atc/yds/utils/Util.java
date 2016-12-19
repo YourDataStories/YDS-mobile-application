@@ -7,10 +7,16 @@ import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import com.github.kinnonii.timeago.TimeAgo;
+
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
@@ -20,6 +26,8 @@ import gr.atc.yds.enums.Message;
  * Created by ipapas on 07/12/16.
  */
 public class Util {
+
+    private final static String DATE_TIME_FORMAT = App.getContext().getString(R.string.DATE_TIME_FORMAT);
 
     //Show log message
     public static void log(String message){
@@ -53,6 +61,41 @@ public class Util {
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
+    //Convert timeStamp to dateTime
+    public static String convertTimestampToDate(Timestamp timestamp){
+
+        Date date = new Date(timestamp.getTime());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_TIME_FORMAT);
+
+        return simpleDateFormat.format(date);
+    }
+
+    //Compute timeAgo of dateTime
+    public static String getTimeago(String dateAsString){
+
+        Util.log("input: " + dateAsString);
+        Util.log("format: " + DATE_TIME_FORMAT);
+
+        try {
+
+            DateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+            Date date = format.parse(dateAsString);
+
+            TimeAgo time = new TimeAgo("en");
+            String timeAgo = time.timeAgo(date);
+
+            Util.log("output: " + timeAgo);
+
+            return timeAgo;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
+    }
+
     //Beautify date
     public static String beautifyDate(String date){
 
@@ -72,7 +115,18 @@ public class Util {
     //Convert Long to String
     public static String convertToString(Long number){
 
-        DecimalFormat decimalFormat = new DecimalFormat("#,##0");
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMAN);
+        DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
+        String numberAsString = decimalFormat.format(number);
+
+        return numberAsString;
+    }
+
+    //Convert Float to String
+    public static String convertToString(Float number){
+
+        NumberFormat numberFormat = NumberFormat.getNumberInstance(Locale.GERMAN);
+        DecimalFormat decimalFormat = (DecimalFormat) numberFormat;
         String numberAsString = decimalFormat.format(number);
 
         return numberAsString;

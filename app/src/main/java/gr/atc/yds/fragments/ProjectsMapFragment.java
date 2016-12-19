@@ -206,7 +206,7 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
     //Add marker in the middle of each project's polyline
     private Marker addProjectMarkerOnMap(List<LatLng> points){
 
-        BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_project);
         LatLng position = points.get((Integer) (points.size() / 2));
 
         Marker marker = map.addMarker(new MarkerOptions().position(position).icon(icon));

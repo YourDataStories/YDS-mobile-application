@@ -104,6 +104,9 @@ public class ProjectActivity extends AppCompatActivity implements CommentListAda
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        //Set title
+        setTitle("");
+
         LayoutInflater inflater = getLayoutInflater();
 
         commentListView = (ListView) findViewById(R.id.activityProject_commentListView);
@@ -375,6 +378,9 @@ public class ProjectActivity extends AppCompatActivity implements CommentListAda
 
         String currency = App.getContext().getString(R.string.CURRENCY);
 
+        //Set activity title
+        setTitle(project.title_en);
+
         //Comments
         commentListAdapter = new CommentListAdapter(this, project.comments);
         commentListView.addHeaderView(detailsView, null, false);
@@ -447,7 +453,7 @@ public class ProjectActivity extends AppCompatActivity implements CommentListAda
             averageRatingBar.setRating(project.average_rating);
 
             TextView averageRating = (TextView) detailsView.findViewById(R.id.activityProject_rating);
-            averageRating.setText(Float.toString(project.average_rating));
+            averageRating.setText(Util.convertToString(project.average_rating));
         }
 
         //'Show all comments' btn

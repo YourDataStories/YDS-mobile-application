@@ -244,7 +244,9 @@
                     android:layout_height="wrap_content"
                     android:numStars="5"
                     android:rating="3"
-                    style="?android:attr/ratingBarStyleIndicator" />
+                    style="?android:attr/ratingBarStyleIndicator"
+                    android:progressTint="@color/ratingBarColor"
+                    android:progressBackgroundTint="@color/textLightColor"/>
 
                 <TextView
                     android:id="@+id/activityProject_rating"

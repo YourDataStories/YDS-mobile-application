@@ -23,7 +23,8 @@
         android:name="gr.atc.yds.fragments.ProjectsListFragment"
         android:layout_below="@+id/my_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout="@layout/fragment_projects_list"/>
 
     <!-- Map fragment -->
     <fragment
@@ -32,7 +33,8 @@
         android:layout_below="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout="@layout/fragment_projects_map"/>
 
 
     <!-- No results message -->

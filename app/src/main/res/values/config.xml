@@ -5,6 +5,7 @@
     <string name="LOG_TAG">yds</string>
     <string name="CURRENCY">€</string>
     <integer name="COLLAPSED_DESCRIPTION_LENGTH">120</integer>
+    <string name="DATE_TIME_FORMAT">yyyy-MM-dd\'T\'HH:mm:ss\'Z\'</string>
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCI4x40KsrRb8-9X0ZH0rlhQT8fz8DIiWs

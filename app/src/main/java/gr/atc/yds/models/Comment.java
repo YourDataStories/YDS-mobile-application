@@ -3,6 +3,8 @@ package gr.atc.yds.models;
 import java.sql.Date;
 import java.sql.Timestamp;
 
+import gr.atc.yds.utils.Util;
+
 /**
  * Created by ipapas on 12/12/16.
  */
@@ -43,7 +45,15 @@ public class Comment {
         this.dislikes = 0;
         this.reaction = null;
 
-        this.created = new Date(System.currentTimeMillis()).toString();
+        this.created();
+    }
+
+    private void created(){
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        this.created = Util.convertTimestampToDate(timestamp);
+
+        Util.log("new comment: " + created);
     }
 
     //Like comment
@@ -68,6 +78,6 @@ public class Comment {
 
     //Get time-ago format of timestamp
     public String getTimeago(){
-        return "3 min ago";
+        return Util.getTimeago(created);
     }
 }

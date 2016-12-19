@@ -14,24 +14,29 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".activities.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomeActivity" />
+
         <activity android:name=".activities.SignInActivity" />
         <activity android:name=".activities.SignUpActivity" />
         <activity android:name=".activities.ProjectActivity" />
+        <activity android:name=".activities.HomeActivity" />
+        <activity android:name=".activities.RateActivity" />
+        <activity android:name=".activities.CommentActivity" />
+        <activity android:name=".activities.InfoActivity" android:theme="@style/AppTheme.Popup">
+        </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCw5vWZz9jzPES5U3V0Cyy9w2RHxGR6bsQ" />
 
-        <activity android:name=".activities.RateActivity" />
-        <activity android:name=".activities.CommentActivity"></activity>
+
+
     </application>
 
 </manifest>

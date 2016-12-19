@@ -19,18 +19,20 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <EditText
+        android:textColor="@color/textLightColor"
+        android:textColorHint="@color/textLightColor"
         android:hint="@string/addCommentHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/my_toolbar"
         android:layout_centerHorizontal="true"
-        android:maxLines="4"
-        android:lines="4"
+        android:maxLines="10"
+        android:lines="5"
         android:gravity="top"
         android:id="@+id/activityComment_commentEditText"
         android:padding="10dp"
         android:layout_margin="16dp"
-        style="@style/RoundedInput"/>
+        android:background="@drawable/shape_border_rounded"/>
 
     <!-- Loader -->
     <ProgressBar

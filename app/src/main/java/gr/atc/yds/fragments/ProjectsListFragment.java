@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,12 +81,21 @@ public class ProjectsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.fragment_projects_list, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.AppTheme);
+        LayoutInflater localInflater = inflater.from(contextThemeWrapper);
+
+        view = localInflater.inflate(R.layout.fragment_projects_list, container, false);
+
+        return view;
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
 
         //Show project list
         showProjectsOnList();
-
-        return view;
 
     }
 

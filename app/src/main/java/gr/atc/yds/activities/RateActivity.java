@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -47,16 +49,34 @@ public class RateActivity extends AppCompatActivity {
 
         //Init
         initUI();
-        setUIEventListeners();
         auth = new Authenticator();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.activity_rate_menu, menu);
+
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        //Back btn clicked
-        if(item.getItemId() == android.R.id.home)
-            finish();
+        switch(item.getItemId()){
+
+            //Back btn clicked
+            case android.R.id.home:
+                finish();
+                break;
+
+            //Rate btn clicked
+            case R.id.rate:
+                rateProject();
+                break;
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -74,6 +94,9 @@ public class RateActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        //Set title
+        setTitle(getString(R.string.activityRateTitle));
+
         if(projectTitle == null || projectRate == -1)
             return;
 
@@ -84,20 +107,6 @@ public class RateActivity extends AppCompatActivity {
         //Project rating
         RatingBar ratingBar = (RatingBar) findViewById(R.id.activityRate_ratingBar);
         ratingBar.setRating(projectRate);
-    }
-
-    //Set UI event listeners
-    private void setUIEventListeners (){
-
-        //Rate btn clicked
-        Button rateBtn = (Button) findViewById(R.id.activityRate_ratingBtnSubmit);
-        rateBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                rateProject();
-            }
-        });
     }
 
     //Rate project

@@ -90,14 +90,17 @@
                 android:layout_toRightOf="@id/redirectToSignUpActivityTextView"
                 android:layout_marginLeft="5dp"
                 android:textStyle="bold"
-                android:textColor="@color/colorPrimary"/>
+                android:textColor="@color/colorPrimary"
+                android:background="?attr/selectableItemBackground"/>
 
         </RelativeLayout>
 
         <ImageView
+            android:id="@+id/activitySignIn_infoBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/img_info"
+            android:background="?attr/selectableItemBackground"
             />
 
         <ProgressBar
@@ -111,26 +114,33 @@
 
     </LinearLayout>
 
-    <ImageView
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:id="@+id/euFlag"
-        android:src="@drawable/img_flag_eu"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_marginBottom="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:text="@string/footerText"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="40dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/textView" />
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="20dp"
+            android:id="@+id/euFlag"
+            android:src="@drawable/img_flag_eu"
+            android:scaleType="fitXY"
+            android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/footerText"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:layout_toRightOf="@+id/euFlag"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/textView"/>
+
+    </RelativeLayout>
+
+
 
 
 </RelativeLayout>

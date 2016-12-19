@@ -60,6 +60,9 @@ public class CommentActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+
+        //Set title
+        setTitle(getString(R.string.activityCommentTitle));
     }
 
     @Override

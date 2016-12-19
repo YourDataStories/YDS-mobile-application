@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">YDS</string>
+    <string name="activityHomeTitle">Projects</string>
+    <string name="activityCommentTitle">Comment</string>
+    <string name="activityRateTitle">Rate</string>
     <string name="usernameLabel">Username</string>
     <string name="passwordLabel">Password</string>
     <string name="repeatPasswordLabel">Repeat Password</string>
@@ -12,6 +15,7 @@
     <string name="splashText">Making sense of open government data and following public money</string>
     <string name="footerText">This project is co-funded by the European Union under Horizon 2020</string>
 
+
     <!-- Toast messages -->
     <string name="somethingWentWrong">Something went wrong</string>
     <string name="invalidCredentials">The user name or password is incorrect</string>
@@ -19,6 +23,7 @@
     <string name="actionShowList">Show list</string>
     <string name="actionShowMap">Show map</string>
     <string name="actionAdd">Add</string>
+    <string name="actionRate">Submit</string>
     <string name="noProjectsFound">No available projects</string>
     <string name="alreadyReacted">You have already reacted to this comment</string>
 

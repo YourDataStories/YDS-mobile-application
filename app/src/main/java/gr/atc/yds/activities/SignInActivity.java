@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -85,7 +86,18 @@ public class SignInActivity extends AppCompatActivity {
                 //Start SignUpActivity
                 Intent i = new Intent(SignInActivity.this, SignUpActivity.class);
                 startActivity(i);
+            }
+        });
 
+        //Info button clicked
+        ImageView infoBtn = (ImageView) findViewById(R.id.activitySignIn_infoBtn);
+        infoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Start InfoActivity
+                Intent i = new Intent(SignInActivity.this, InfoActivity.class);
+                startActivity(i);
             }
         });
     }

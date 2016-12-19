@@ -37,13 +37,9 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        //Set toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
 
         //Init
+        initUI();
         projects = null;
         gson = new Gson();
         listFragmentContainer = findViewById(R.id.activityHome_listFragment);
@@ -51,6 +47,21 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
 
         switchToListView();
         loadProjects();
+    }
+
+    //Initialize UI
+    private void initUI(){
+
+        //Set layout
+        setContentView(R.layout.activity_home);
+
+        //Set toolbar
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        //Set title
+        setTitle(getString(R.string.activityHomeTitle));
+
     }
 
     @Override

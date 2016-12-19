@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="gr.atc.yds.activities.ProjectActivity"
-    android:textColor="@color/textLightColor"
     android:background="@drawable/img_background">
 
     <!-- Toolbar -->

@@ -80,7 +80,7 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
                 averageRatingBar.setRating(project.average_rating);
 
                 TextView averageRatingTextView = (TextView) convertView.findViewById(R.id.listItemProject_rating);
-                averageRatingTextView.setText(Float.toString(project.average_rating));
+                averageRatingTextView.setText(Util.convertToString(project.average_rating));
             }
 
         }

@@ -4,6 +4,7 @@
     <color name="colorSecondary">#46baf2</color>
     <color name="colorPrimaryDark">#00689a</color>
     <color name="colorAccent">#2095c7</color>
-    <color name="textLightColor">#f4f3f3</color>
+    <color name="textLightColor">#ffffff</color>
     <color name="textDarkColor">#181717</color>
+    <color name="ratingBarColor">#fcd205</color>
 </resources>

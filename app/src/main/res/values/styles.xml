@@ -19,6 +19,13 @@
         <item name="android:background">@color/colorPrimary</item>
     </style>
 
+    <!-- Popup activity theme -->
+    <style name="AppTheme.Popup">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowBackground">@drawable/shape_rounded_input</item>
+    </style>
+
     <!-- Rounded input -->
     <style name="RoundedInput">
         <item name="android:background">@drawable/shape_rounded_input</item>
