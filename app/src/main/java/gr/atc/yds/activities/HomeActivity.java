@@ -24,9 +24,10 @@ import gr.atc.yds.enums.ViewMode;
 import gr.atc.yds.fragments.ProjectsListFragment;
 import gr.atc.yds.fragments.ProjectsMapFragment;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.utils.Connectivity;
 import gr.atc.yds.utils.Util;
 
-public class HomeActivity extends AppCompatActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
+public class HomeActivity extends PrivateActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
 
     private List<Project> projects;
     private Gson gson;
@@ -49,7 +50,7 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
         loadProjects();
     }
 
-    //Initialize UI
+    //Initialize
     private void initUI(){
 
         //Set layout
@@ -165,7 +166,8 @@ public class HomeActivity extends AppCompatActivity implements ProjectsListFragm
 
             @Override
             public void onFailure(Message message) {
-
+                hideLoader();
+                Util.showToast(message);
             }
         });
     }

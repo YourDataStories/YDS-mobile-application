@@ -1,9 +1,7 @@
 package gr.atc.yds.utils;
 
 import android.app.Activity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -46,6 +44,14 @@ public class Util {
 
             case INVALID_CREDENTIALS:
                 textMessage = App.getContext().getString(R.string.invalidCredentials);
+                break;
+
+            case NO_INTERNET_CONNECTION:
+                textMessage = App.getContext().getString(R.string.noInternetConnection);
+                break;
+
+            case TIMEOUT:
+                textMessage = App.getContext().getString(R.string.timeOut);
                 break;
 
             default:

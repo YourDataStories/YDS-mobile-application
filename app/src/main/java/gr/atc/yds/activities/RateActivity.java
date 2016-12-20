@@ -22,7 +22,7 @@ import gr.atc.yds.enums.Message;
 import gr.atc.yds.models.ProjectDetails;
 import gr.atc.yds.utils.Util;
 
-public class RateActivity extends AppCompatActivity {
+public class RateActivity extends PrivateActivity {
 
     private String projectId;
     private String projectTitle;

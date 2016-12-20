@@ -5,5 +5,7 @@ package gr.atc.yds.enums;
  */
 public enum Message {
     SOMETHING_WENT_WRONG,
+    TIMEOUT,
+    NO_INTERNET_CONNECTION,
     INVALID_CREDENTIALS,
 }

@@ -25,7 +25,7 @@ import gr.atc.yds.models.Comment;
 import gr.atc.yds.utils.Form;
 import gr.atc.yds.utils.Util;
 
-public class CommentActivity extends AppCompatActivity {
+public class CommentActivity extends PrivateActivity {
 
     private String projectId;
     private Authenticator auth;

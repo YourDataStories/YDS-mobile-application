@@ -23,7 +23,7 @@ import retrofit2.http.POST;
 /**
  * Created by ipapas on 08/12/16.
  */
-public class YDSApiClient {
+public class YDSApiClient extends Client{
 
     private WebService service;
     private String YDSBaseUrl;
@@ -33,7 +33,7 @@ public class YDSApiClient {
     public interface WebService {
 
         //Get projects
-        @GET("584e80f7120000270b3949fb")
+        @GET("5858f38a2400001d047c5a13")
         Call<ResponseBody> getProjects();
 
         //Get project details
@@ -61,12 +61,6 @@ public class YDSApiClient {
         Call<ResponseBody> dislikeComment();
 
 
-    }
-
-    //Client Callback
-    public interface ResponseListener {
-        public void onSuccess(Object object);
-        public void onFailure(Message message);
     }
 
     public YDSApiClient(){
@@ -117,7 +111,7 @@ public class YDSApiClient {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -158,7 +152,7 @@ public class YDSApiClient {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -199,7 +193,7 @@ public class YDSApiClient {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -223,7 +217,7 @@ public class YDSApiClient {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -247,7 +241,7 @@ public class YDSApiClient {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -271,7 +265,7 @@ public class YDSApiClient {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }
@@ -295,7 +289,7 @@ public class YDSApiClient {
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
     }

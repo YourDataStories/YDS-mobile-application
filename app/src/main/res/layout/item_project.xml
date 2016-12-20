@@ -59,7 +59,10 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12"
+        android:minHeight="18dp"
+        android:minWidth="18dp"
+        android:text="99"
+        android:gravity="center"
         android:background="@drawable/shape_filled_circle"
         android:id="@+id/listItemProject_numOfComments"
         app:layout_constraintLeft_toLeftOf="@+id/listItemProject_commentsIcon"

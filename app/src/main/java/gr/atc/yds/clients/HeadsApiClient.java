@@ -19,7 +19,7 @@ import retrofit2.http.POST;
  * Created by ipapas on 08/12/16.
  */
 
-public class HeadsApiClient {
+public class HeadsApiClient extends Client{
 
     private WebService service;
     private String HeadsBaseUrl;
@@ -43,12 +43,6 @@ public class HeadsApiClient {
                                   @Field("password") String password,
                                   @Field("confirmPassword") String confirmPassword);
 
-    }
-
-    //Client Callback
-    public interface ResponseListener {
-        public void onSuccess(Object object);
-        public void onFailure(Message message);
     }
 
     public HeadsApiClient(){
@@ -107,7 +101,7 @@ public class HeadsApiClient {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
 
@@ -142,7 +136,7 @@ public class HeadsApiClient {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                handleFailure(t, responseListener);
             }
         });
 

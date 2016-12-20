@@ -36,7 +36,7 @@ import gr.atc.yds.models.Comment;
 import gr.atc.yds.models.ProjectDetails;
 import gr.atc.yds.utils.Util;
 
-public class ProjectActivity extends AppCompatActivity implements CommentListAdapter.OnCommentReactionListener{
+public class ProjectActivity extends PrivateActivity implements CommentListAdapter.OnCommentReactionListener{
 
     private static final int RATE_PROJECT_REQUEST = 1;
     private static final int COMMENT_PROJECT_REQUEST = 2;
@@ -365,6 +365,7 @@ public class ProjectActivity extends AppCompatActivity implements CommentListAda
 
             @Override
             public void onFailure(Message message) {
+                hideLoader();
                 Util.showToast(message);
             }
         });

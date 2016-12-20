@@ -65,7 +65,8 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
             //Num of comments
             if(project.num_comments != null){
                 TextView numOfCommentsTextView = (TextView) convertView.findViewById(R.id.listItemProject_numOfComments);
-                numOfCommentsTextView.setText(Integer.toString(project.num_comments));
+                String numOfCommentsString = (project.num_comments < 100) ? String.format("%d",project.num_comments) : "99+";
+                numOfCommentsTextView.setText(numOfCommentsString);
             }
 
             //Num of ratings
