@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -23,6 +22,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.atc.yds.R;
@@ -46,7 +46,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     private Boolean projectCollapsed;
 
     private ImageView collapseBtn;
-    private TextView description;
+    private TextView descriptionTextView;
     private RelativeLayout beneficiaryLayout;
     private RelativeLayout completionOfPaymentsLayout;
     private RelativeLayout projectIdLayout;
@@ -63,12 +63,12 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         //Get arguments
         Bundle extras = getIntent().getExtras();
         if(extras != null){
-            String projectId = extras.getString("projectId");
+            Long projectId = extras.getLong("projectId");
             loadProject(projectId);
         }
         //Restore (in case of destroy)
         else if(savedInstanceState != null){
-            String projectId = savedInstanceState.getString("projectId");
+            Long projectId = savedInstanceState.getLong("projectId");
             loadProject(projectId);
         }
 
@@ -114,7 +114,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         footerView = (ViewGroup) inflater.inflate(R.layout.item_more_comments, commentListView, false);
 
         collapseBtn = (ImageView) detailsView.findViewById(R.id.activityProject_collapseBtn);
-        description = (TextView) detailsView.findViewById(R.id.activityProject_description);
+        descriptionTextView = (TextView) detailsView.findViewById(R.id.activityProject_description);
         beneficiaryLayout = (RelativeLayout) detailsView.findViewById(R.id.activityProject_beneficiaryRelativeLayout);
         completionOfPaymentsLayout = (RelativeLayout) detailsView.findViewById(R.id.activityProject_completionOfPaymentsRelativeLayout);
         projectIdLayout = (RelativeLayout) detailsView.findViewById(R.id.activityProject_projectIdRelativeLayout);
@@ -146,9 +146,9 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
                 //Start RateActivity
                 Intent i = new Intent(ProjectActivity.this, RateActivity.class);
-                i.putExtra("projectId", project.id);
+                i.putExtra("projectId", project.projectId);
                 i.putExtra("projectTitle", project.title_en);
-                i.putExtra("projectRate", project.average_rating);
+                i.putExtra("projectRate", project.user_rating);
                 startActivityForResult(i, RATE_PROJECT_REQUEST);
 
             }
@@ -165,7 +165,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
                 //Start CommentActivity
                 Intent i = new Intent(ProjectActivity.this, CommentActivity.class);
-                i.putExtra("projectId", project.id);
+                i.putExtra("projectId", project.projectId);
                 startActivityForResult(i, COMMENT_PROJECT_REQUEST);
 
             }
@@ -306,26 +306,13 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
         collapseBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_arrow_down));
 
-        if(project.description_en != null)
-            description.setText(collapseDescription(project.description_en));
+        String description = project.getCollapsedDescription();
+        if(description != null)
+            descriptionTextView.setText(description);
 
         beneficiaryLayout.setVisibility(View.GONE);
         completionOfPaymentsLayout.setVisibility(View.GONE);
         projectIdLayout.setVisibility(View.GONE);
-
-    }
-
-    private String collapseDescription(String description){
-
-        int descriptionCollapsedLength = getResources().getInteger(R.integer.COLLAPSED_DESCRIPTION_LENGTH);
-        String collapsedDescription = description;
-
-        if(description.length() > descriptionCollapsedLength){
-            collapsedDescription = description.substring(0, descriptionCollapsedLength);
-            collapsedDescription += "...";
-        }
-
-        return collapsedDescription;
 
     }
 
@@ -336,8 +323,9 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
         collapseBtn.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(),R.drawable.ic_arrow_up));
 
-        if(project.description_en != null)
-            description.setText(project.description_en);
+        String description = project.getDescription();
+        if(description != null)
+            descriptionTextView.setText(description);
 
         beneficiaryLayout.setVisibility(View.VISIBLE);
         completionOfPaymentsLayout.setVisibility(View.VISIBLE);
@@ -345,13 +333,21 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     }
 
     //Load project
-    private void loadProject(String projectId){
+    private void loadProject(Long projectId){
+
+        //Get current user's identity
+        String username = new Authenticator().getUsername();
+
+        if(username == null){
+            logout();
+            return;
+        }
 
         hideContent();
         showLoader();
 
         YDSApiClient client = new YDSApiClient();
-        client.getProjectDetails(projectId, new YDSApiClient.ResponseListener() {
+        client.getProjectDetails(projectId, username, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 
@@ -379,8 +375,12 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
         String currency = App.getContext().getString(R.string.CURRENCY);
 
+        if(project.comments == null)
+            project.comments = new ArrayList<>();
+
         //Set activity title
-        setTitle(project.title_en);
+        String title = project.getTitle();
+        setTitle(title);
 
         //Comments
         commentListAdapter = new CommentListAdapter(this, project.comments);
@@ -392,22 +392,22 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         attachMapFragment();
 
         //Title
-        if(project.title_en != null){
-            TextView title = (TextView) detailsView.findViewById(R.id.activityProject_title);
-            title.setText(project.title_en);
+        if(title != null){
+            TextView titleTextView = (TextView) detailsView.findViewById(R.id.activityProject_title);
+            titleTextView.setText(title);
         }
 
         //Description
-        if(project.description_en != null){
-            TextView description = (TextView) detailsView.findViewById(R.id.activityProject_description);
-            description.setText(collapseDescription(project.description_en));
+        String description = project.getCollapsedDescription();
+        if(description != null){
+            TextView descriptionTextView = (TextView) detailsView.findViewById(R.id.activityProject_description);
+            descriptionTextView.setText(description);
         }
 
         //Beneficiary
-        if(project.buyer_translation_en != null && project.buyer_translation_en.size() > 0){
-            TextView beneficiary = (TextView) detailsView.findViewById(R.id.activityProject_beneficiary);
-            beneficiary.setText(project.buyer_translation_en.get(0));
-        }
+        TextView beneficiary = (TextView) detailsView.findViewById(R.id.activityProject_beneficiary);
+        beneficiary.setText(project.getBuyer());
+
 
         //Completion (of payments)
         if(project.completionOfPayments != null){
@@ -418,7 +418,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         //Project Id
         if(project.projectId != null){
             TextView projectId = (TextView) detailsView.findViewById(R.id.activityProject_projectId);
-            projectId.setText(project.projectId);
+            projectId.setText(Long.toString(project.projectId));
         }
 
         //Start date
@@ -457,6 +457,10 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
             averageRating.setText(Util.convertToString(project.average_rating));
         }
 
+        //Num of comments
+        TextView numOfComments = (TextView) detailsView.findViewById(R.id.activityProject_numOfComments);
+        numOfComments.setText(project.comments.size());
+
         //'Show all comments' btn
         if(project.num_comments > 0)
             showLoadCommentsBtn();
@@ -472,7 +476,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         showLoader();
 
         YDSApiClient client = new YDSApiClient();
-        client.getProjectComments(project.id, new YDSApiClient.ResponseListener() {
+        client.getProjectComments(project.projectId, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 

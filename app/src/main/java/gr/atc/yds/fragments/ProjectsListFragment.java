@@ -26,7 +26,7 @@ import gr.atc.yds.utils.Util;
 public class ProjectsListFragment extends Fragment {
 
     public interface Listener {
-        void onProjectItemClicked(String projectID);
+        void onProjectItemClicked(Long projectID);
     }
 
     private Listener listener;
@@ -120,7 +120,7 @@ public class ProjectsListFragment extends Fragment {
 
                     if(listener != null){
                         Project clickedProject = projects.get(i);
-                        listener.onProjectItemClicked(clickedProject.id);
+                        listener.onProjectItemClicked(clickedProject.projectId);
                     }
 
                 }

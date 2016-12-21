@@ -12,18 +12,29 @@ import java.util.List;
 public class Project {
 
     public String id;
-    public String projectId;
+    public Long projectId;
     public Float average_rating;
     public Integer num_ratings;
     public Integer num_comments;
     public String title_el;
     public String title_en;
-    public Integer countOfRelatedContracts;
     public Long hasBudgetAggregate_aggregatedAmount;
     public String hasRelatedFeature_hasGeometry_asWKT;
 
     public Project(){
 
+    }
+
+    //Get title
+    public String getTitle(){
+
+        if(title_en != null)
+            return title_en;
+
+        if(title_el != null)
+            return title_el;
+
+        return null;
     }
 
     //Rate project

@@ -1,6 +1,5 @@
 package gr.atc.yds.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 import gr.atc.yds.utils.Util;
@@ -18,8 +17,8 @@ public class Comment {
     }
 
     public enum Reaction {
-        LIKE,
-        DISLIKE
+        like,
+        dislike
     }
 
     public int id;
@@ -62,7 +61,7 @@ public class Comment {
         if(reaction != null)
             return;
 
-        reaction = Reaction.LIKE;
+        reaction = Reaction.like;
         likes++;
     }
 
@@ -72,7 +71,7 @@ public class Comment {
         if(reaction != null)
             return;
 
-        reaction = Reaction.DISLIKE;
+        reaction = Reaction.dislike;
         dislikes++;
     }
 

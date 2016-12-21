@@ -125,7 +125,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     }
 
     @Override
-    public void onProjectMarkerClicked(String projectId){
+    public void onProjectMarkerClicked(Long projectId){
 
         Util.log("project clicked: " + projectId);
 
@@ -134,7 +134,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     }
 
     @Override
-    public void onProjectItemClicked(String projectId){
+    public void onProjectItemClicked(Long projectId){
 
         Util.log("project clicked: " + projectId);
 
@@ -142,7 +142,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         startProjectActivity(projectId);
     }
 
-    private void startProjectActivity(String projectId){
+    private void startProjectActivity(Long projectId){
 
         Intent i = new Intent(HomeActivity.this, ProjectActivity.class);
         i.putExtra("projectId", projectId);
@@ -225,26 +225,6 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         ft.replace(R.id.activityHome_mapFragment, projectsMapFragment);
         ft.commit();
 
-    }
-
-    //Logout
-    private void logout(){
-
-        Authenticator auth = new Authenticator();
-        auth.signOut(new Authenticator.ResponseListener() {
-            @Override
-            public void onSuccess() {
-
-                //Start SignInActivity
-                Intent i = new Intent(HomeActivity.this, SignInActivity.class);
-                startActivity(i);
-            }
-
-            @Override
-            public void onFailure(Message message) {
-                Util.showToast(message);
-            }
-        });
     }
 
     //Show loader

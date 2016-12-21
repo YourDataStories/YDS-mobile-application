@@ -10,8 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
 
 import gr.atc.yds.R;
@@ -102,7 +100,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             //Thumbs up
             TextView thumbsUpNumber = (TextView) convertView.findViewById(R.id.thumbsUpNumber);
             ImageView thumbsUpBtn = (ImageView) convertView.findViewById(R.id.thumbsUpBtn);
-            if(comment.reaction == Comment.Reaction.LIKE)
+            if(comment.reaction == Comment.Reaction.like)
                 markThumbsUpAsClicked(thumbsUpBtn, thumbsUpNumber);
             else
                 markThumbsUpAsUnclicked(thumbsUpBtn, thumbsUpNumber);
@@ -112,7 +110,7 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             //Thumbs down
             TextView thumbsDownNumber = (TextView) convertView.findViewById(R.id.thumbsDownNumber);
             ImageView thumbsDownBtn = (ImageView) convertView.findViewById(R.id.thumbsDownBtn);
-            if(comment.reaction == Comment.Reaction.DISLIKE)
+            if(comment.reaction == Comment.Reaction.dislike)
                 markThumbsDownAsClicked(thumbsDownBtn, thumbsDownNumber);
             else
                 markThumbsDownAsUnclicked(thumbsDownBtn, thumbsDownNumber);

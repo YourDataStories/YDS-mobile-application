@@ -49,16 +49,26 @@ public class RateActivity extends PrivateActivity {
 
         //Init
         initUI();
+        setUIEventListeners();
         auth = new Authenticator();
+    }
+
+    //Set UI event listeners
+    private void setUIEventListeners (){
+
+        //'Rate' btn clicked
+        Button submitBtn = (Button) findViewById(R.id.activityRate_submitBtn);
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rateProject();
+            }
+        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_rate_menu, menu);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -70,13 +80,7 @@ public class RateActivity extends PrivateActivity {
             case android.R.id.home:
                 finish();
                 break;
-
-            //Rate btn clicked
-            case R.id.rate:
-                rateProject();
-                break;
         }
-
 
         return super.onOptionsItemSelected(item);
     }
@@ -112,8 +116,10 @@ public class RateActivity extends PrivateActivity {
     //Rate project
     private void rateProject(){
 
-        if(projectId == null || !auth.isUserLoggedIn())
+        if(projectId == null || !auth.isUserLoggedIn()){
+            logout();
             return;
+        }
 
         //Get current user's identity
         String username = auth.getUsername();

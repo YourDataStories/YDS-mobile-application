@@ -3,7 +3,7 @@
     <string name="activityHomeTitle">Projects</string>
     <string name="activityCommentTitle">Comment</string>
     <string name="activityRateTitle">Rate</string>
-    <string name="activityInfoTitle">Information</string>
+    <string name="activityInfoTitle">Info</string>
     <string name="usernameLabel">Username</string>
     <string name="passwordLabel">Password</string>
     <string name="repeatPasswordLabel">Repeat Password</string>
@@ -17,9 +17,10 @@
     <string name="footerText">This project is co-funded by the European Union under Horizon 2020</string>
     <string name="actionShowList">Show list</string>
     <string name="actionShowMap">Show map</string>
-    <string name="actionAdd">Add</string>
+    <string name="actionAdd">Submit</string>
     <string name="actionRate">Submit</string>
     <string name="actionClose">Close</string>
+    <string name="info">This mobile app has been developed for the <a href="http://yourdatastories.eu/">YourDataStories</a> project which has received funding from the European Union’s Horizon 2020 research and innovation programme under grant agreement No 645886. YourDataStories mobile app aims to collect and upload primary content for public construction projects in a fast, reliable and contained fashion by demonstrating how interlinked public data can support transparency, empowering the citizen on mobile platforms, via crowdsourcing.</string>
 
 
     <!-- Toast messages -->

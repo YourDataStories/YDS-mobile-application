@@ -21,8 +21,8 @@ import retrofit2.http.POST;
 
 public class HeadsApiClient extends Client{
 
+    private static final String HeadsBaseUrl = App.getContext().getString(R.string.HEADS_BASE_URL);
     private WebService service;
-    private String HeadsBaseUrl;
 
     //Representation of Heads remote web services
     public interface WebService {
@@ -46,8 +46,6 @@ public class HeadsApiClient extends Client{
     }
 
     public HeadsApiClient(){
-
-        HeadsBaseUrl = App.getContext().getString(R.string.HEADS_BASE_URL);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(HeadsBaseUrl)

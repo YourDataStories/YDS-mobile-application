@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -44,6 +45,7 @@ public class CommentActivity extends PrivateActivity {
 
         //Init
         initUI();
+        setUIEventListeners();
         auth = new Authenticator();
 
     }
@@ -65,25 +67,28 @@ public class CommentActivity extends PrivateActivity {
         setTitle(getString(R.string.activityCommentTitle));
     }
 
+    //Set UI event listeners
+    private void setUIEventListeners (){
+
+        //'Add comment' btn clicked
+        Button submitBtn = (Button) findViewById(R.id.activityComment_submitBtn);
+        submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addComment();
+            }
+        });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.activity_comment_menu, menu);
-
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
-
-            case R.id.add:
-
-                //'Add text' action clicked
-                addComment();
-                break;
 
             case android.R.id.home:
 
@@ -98,8 +103,10 @@ public class CommentActivity extends PrivateActivity {
     //Add comment
     private void addComment(){
 
-        if(projectId == null || !auth.isUserLoggedIn())
+        if(projectId == null || !auth.isUserLoggedIn()){
+            logout();
             return;
+        }
 
         //Validate form
         EditText commentEditText = (EditText) findViewById(R.id.activityComment_commentEditText);
@@ -107,6 +114,7 @@ public class CommentActivity extends PrivateActivity {
             return;
 
         String username = auth.getUsername();
+
         String text = commentEditText.getText().toString();
         final Comment comment = new Comment(Comment.Type.YDS, username, text);
 

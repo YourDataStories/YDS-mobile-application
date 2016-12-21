@@ -291,7 +291,7 @@
                 android:text="55"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/fragmentComments_numOfComments"
+                android:id="@+id/activityProject_numOfComments"
                 app:layout_constraintTop_toTopOf="@+id/commentsLabel"
                 android:layout_marginStart="8dp"
                 app:layout_constraintLeft_toRightOf="@+id/commentsLabel"

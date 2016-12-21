@@ -17,9 +17,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -117,14 +120,26 @@ public class ProjectMapFragment extends Fragment implements OnMapReadyCallback {
         if(projectPoints == null || projectPoints.size() <= 0)
             return;
 
-        int color =  ContextCompat.getColor(App.getContext(), R.color.colorPrimary);
-        PolylineOptions polylineOptions = new PolylineOptions().color(color)
-                .width(15)
-                .geodesic(false)
-                .addAll(projectPoints);
+        //Point
+        if(projectPoints.size() == 1){
 
-        //Draw polyline
-        map.addPolyline(polylineOptions);
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_project);
+            LatLng position = projectPoints.get(0);
+            map.addMarker(new MarkerOptions().position(position).icon(icon));
+
+        }
+
+        //LineString
+        else{
+
+            int color =  ContextCompat.getColor(App.getContext(), R.color.colorPrimary);
+            PolylineOptions polylineOptions = new PolylineOptions().color(color)
+                    .width(15)
+                    .geodesic(false)
+                    .addAll(projectPoints);
+            map.addPolyline(polylineOptions);
+        }
+
 
     }
 

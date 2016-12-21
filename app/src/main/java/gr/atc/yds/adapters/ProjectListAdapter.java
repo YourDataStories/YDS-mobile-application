@@ -50,9 +50,10 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
         if(project != null){
 
             //Title
-            if(project.title_en != null){
+            String title = project.getTitle();
+            if(title != null){
                 TextView titleTextView = (TextView) convertView.findViewById(R.id.listItemProject_title);
-                titleTextView.setText(project.title_en);
+                titleTextView.setText(title);
             }
 
             //Budget

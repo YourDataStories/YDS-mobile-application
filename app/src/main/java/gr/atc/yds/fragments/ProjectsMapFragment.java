@@ -41,7 +41,7 @@ import gr.atc.yds.utils.Util;
 public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     public interface Listener {
-        void onProjectMarkerClicked(String projectID);
+        void onProjectMarkerClicked(Long projectID);
     }
 
     private Listener listener;
@@ -139,7 +139,7 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
         Project clickedProject = projectMarkers.get(marker);
 
         if(listener != null)
-            listener.onProjectMarkerClicked(clickedProject.id);
+            listener.onProjectMarkerClicked(clickedProject.projectId);
 
         return false;
     }

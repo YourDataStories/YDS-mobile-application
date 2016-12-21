@@ -1,15 +1,23 @@
 package gr.atc.yds.activities;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import gr.atc.yds.R;
 
@@ -30,12 +38,20 @@ public class InfoActivity extends AppCompatActivity {
         //Set view
         setContentView(R.layout.activity_info);
 
-        //Set toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
-
         //Set title
         setTitle(getString(R.string.activityInfoTitle));
+
+        //Make links clickable
+        TextView infoTextView = (TextView) findViewById(R.id.activityInfo_infoTextView);
+        infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        //Set size
+        setSize();
+
+    }
+
+    //Initialize window size
+    private void setSize(){
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -43,8 +59,7 @@ public class InfoActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .95), (int) (height * .6));
-
+        getWindow().setLayout((int) (width * .95), (int) (height * .4));
     }
 
     //Set UI event listeners

@@ -7,6 +7,8 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import gr.atc.yds.R;
+import gr.atc.yds.controllers.App;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.models.Comment;
 import gr.atc.yds.models.Project;
@@ -19,26 +21,28 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Created by ipapas on 08/12/16.
  */
 public class YDSApiClient extends Client{
 
+    private static final String YDSBaseUrl = App.getContext().getString(R.string.YDS_BASE_URL);
     private WebService service;
-    private String YDSBaseUrl;
     private Gson gson;
 
     //Representation of YDS remote web services
     public interface WebService {
 
         //Get projects
-        @GET("5858f38a2400001d047c5a13")
+        @GET("projects/getProjects")
         Call<ResponseBody> getProjects();
 
         //Get project details
-        @GET("5853cbec0f00000e0dc731de")
-        Call<ResponseBody> getProjectDetails();
+        @GET("projects/getProjectDetails")
+        Call<ResponseBody> getProjectDetails(@Query("projectId") Long projectId,
+                                             @Query("username") String username);
 
         //Get project comments
         @GET("5853ccae0f00001c0dc731e2")
@@ -65,8 +69,6 @@ public class YDSApiClient extends Client{
 
     public YDSApiClient(){
 
-        YDSBaseUrl = "http://www.mocky.io/v2/";
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(YDSBaseUrl)
                 .build();
@@ -88,10 +90,9 @@ public class YDSApiClient extends Client{
                     //Http == 200
                     if (response.isSuccessful()) {
 
-                        JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
-
                         //Get projects
-                        String projectsString = responseBodyJSONObject.getJSONObject("response").getString("docs");
+                        JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
+                        String projectsString = responseBodyJSONObject.getString("docs");
                         List<Project> projects = gson.fromJson(projectsString, new TypeToken<List<Project>>(){}.getType());
 
                         responseListener.onSuccess(projects);
@@ -117,9 +118,9 @@ public class YDSApiClient extends Client{
     }
 
     //Get project details
-    public void getProjectDetails(String projectId, final ResponseListener responseListener){
+    public void getProjectDetails(Long projectId, String username, final ResponseListener responseListener){
 
-        Call<ResponseBody> call = service.getProjectDetails();
+        Call<ResponseBody> call = service.getProjectDetails(projectId, "test");
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -129,10 +130,8 @@ public class YDSApiClient extends Client{
                     //Http == 200
                     if (response.isSuccessful()) {
 
-                        //JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
-                        String responseBodyString = response.body().string();
-
                         //Get project details
+                        String responseBodyString = response.body().string();
                         ProjectDetails project = gson.fromJson(responseBodyString, ProjectDetails.class);
 
                         responseListener.onSuccess(project);
@@ -146,7 +145,6 @@ public class YDSApiClient extends Client{
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
                 }
             }
 
@@ -158,7 +156,7 @@ public class YDSApiClient extends Client{
     }
 
     //Get project comments
-    public void getProjectComments(String projectId, final ResponseListener responseListener){
+    public void getProjectComments(Long projectId, final ResponseListener responseListener){
 
         Call<ResponseBody> call = service.getProjectComments();
         call.enqueue(new Callback<ResponseBody>() {
