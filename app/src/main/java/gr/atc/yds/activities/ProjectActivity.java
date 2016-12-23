@@ -184,7 +184,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     }
 
     //Project was rated
-    public void projectRated(float rating){
+    public void projectRated(Integer rating){
 
         if(project == null)
             return;
@@ -204,6 +204,8 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
             averageRating.setText(String.format("%.1f", project.average_rating));
         }
 
+        hideRateBtn();
+
     }
 
     //Project was commented
@@ -212,7 +214,12 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         if(project == null)
             return;
 
-        //Update list of comments
+        project.num_comments++;
+
+        //Update UI
+        TextView numOfComments = (TextView) detailsView.findViewById(R.id.activityProject_numOfComments);
+        numOfComments.setText(Integer.toString(project.num_comments));
+
         if(commentListAdapter != null)
             commentListAdapter.insert(comment, 0);
 
@@ -262,7 +269,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         //RateActivity returned result
         if(requestCode == RATE_PROJECT_REQUEST && resultCode == Activity.RESULT_OK){
 
-            float rating = data.getExtras().getFloat("rating");
+            Integer rating = data.getExtras().getInt("rating");
             projectRated(rating);
 
             Util.log("Project rated: " + rating);
@@ -284,8 +291,23 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     public boolean onOptionsItemSelected(MenuItem item) {
 
         //Back btn clicked
-        if(item.getItemId() == android.R.id.home)
+        if(item.getItemId() == android.R.id.home){
+
+            //Send potential project updates to ProjectActivity
+            Intent data = new Intent();
+            data.putExtra("projectId", project.projectId);
+            data.putExtra("average_rating", project.average_rating);
+            data.putExtra("num_ratings", project.num_ratings);
+            data.putExtra("num_comments", project.num_comments);
+
+            if (getParent() == null)
+                setResult(Activity.RESULT_OK, data);
+            else
+                getParent().setResult(Activity.RESULT_OK, data);
+
             finish();
+        }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -457,12 +479,16 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
             averageRating.setText(Util.convertToString(project.average_rating));
         }
 
+        //'Rate it' btn
+        if(project.user_rating == 0)
+            showRateBtn();
+
         //Num of comments
         TextView numOfComments = (TextView) detailsView.findViewById(R.id.activityProject_numOfComments);
-        numOfComments.setText(project.comments.size());
+        numOfComments.setText(Integer.toString(project.num_comments));
 
         //'Show all comments' btn
-        if(project.num_comments > 0)
+        if(project.num_comments > project.comments.size())
             showLoadCommentsBtn();
 
     }
@@ -473,10 +499,18 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         if(project == null || commentListAdapter == null || footerView == null)
             return;
 
+        //Get current user's identity
+        String username = new Authenticator().getUsername();
+
+        if(username == null){
+            logout();
+            return;
+        }
+
         showLoader();
 
         YDSApiClient client = new YDSApiClient();
-        client.getProjectComments(project.projectId, new YDSApiClient.ResponseListener() {
+        client.getProjectComments(project.projectId, username, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 
@@ -534,6 +568,20 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.activityProject_progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    //Show 'Rate it' btn
+    private void showRateBtn(){
+
+        Button rateBtn = (Button) detailsView.findViewById(R.id.activityProject_ratingBtn);
+        rateBtn.setVisibility(View.VISIBLE);
+    }
+
+    //Hide 'Rate it' btn
+    private void hideRateBtn(){
+
+        Button rateBtn = (Button) detailsView.findViewById(R.id.activityProject_ratingBtn);
+        rateBtn.setVisibility(View.GONE);
     }
 
     //Show 'Load all comments' btn

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="HEADS_BASE_URL">http://atc-dnn.atc.gr/heads/</string>
-    <string name="YDS_BASE_URL">http://10.10.10.199:8080/ydsMobileServices/platform/</string>
+    <string name="YDS_BASE_URL">http://platform.yourdatastories.eu/api/tomcat/ydsMobileServices/platform/projects/</string>
 
     <string name="LOG_TAG">yds</string>
     <string name="CURRENCY">€</string>

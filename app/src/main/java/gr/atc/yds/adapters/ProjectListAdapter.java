@@ -23,15 +23,36 @@ public class ProjectListAdapter extends ArrayAdapter<Project> {
 
     private Context context;
     private String currency;
+    private List<Project> projects;
 
     public ProjectListAdapter(Context context, List<Project> projects) {
         super(context, R.layout.item_project, projects);
 
         this.context = context;
+        this.projects = projects;
 
         //Get currency
         currency = App.getContext().getString(R.string.CURRENCY);
 
+    }
+
+    @Override
+    public int getCount() {
+        try {
+            return projects.size();
+        } catch(NullPointerException ex) {
+            return 0;
+        }
+    }
+
+    @Override
+    public Project getItem(int i) {
+        return projects.get(i);
+    }
+
+    @Override
+    public long getItemId(int i) {
+        return projects.get(i).projectId;
     }
 
     @Override

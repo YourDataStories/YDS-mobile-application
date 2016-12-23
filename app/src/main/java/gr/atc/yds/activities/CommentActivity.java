@@ -28,7 +28,7 @@ import gr.atc.yds.utils.Util;
 
 public class CommentActivity extends PrivateActivity {
 
-    private String projectId;
+    private Long projectId;
     private Authenticator auth;
 
     @Override
@@ -39,7 +39,7 @@ public class CommentActivity extends PrivateActivity {
         //Get arguments
         Bundle extras = getIntent().getExtras();
         if(extras != null)
-            projectId = getIntent().getExtras().getString("projectId");
+            projectId = getIntent().getExtras().getLong("projectId");
         else
             projectId = null;
 
@@ -121,7 +121,7 @@ public class CommentActivity extends PrivateActivity {
         //Submit comment
         showLoader();
         YDSApiClient client = new YDSApiClient();
-        client.commentProject(projectId, comment, username, new YDSApiClient.ResponseListener() {
+        client.commentProject(projectId, comment, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 

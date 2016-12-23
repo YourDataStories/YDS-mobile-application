@@ -32,6 +32,7 @@ public class ProjectsListFragment extends Fragment {
     private Listener listener;
     private static final String ARG_PARAM1 = "projects";
     private List<Project> projects;
+    private ProjectListAdapter projectListAdapter;
     private View view;
 
     public ProjectsListFragment() {
@@ -110,7 +111,7 @@ public class ProjectsListFragment extends Fragment {
         if(projects != null && view != null){
 
             ListView projectsListView = (ListView) view.findViewById(R.id.fragmentProjectsList_projectsListView);
-            ProjectListAdapter projectListAdapter = new ProjectListAdapter(App.getContext(), projects);
+            projectListAdapter = new ProjectListAdapter(App.getContext(), projects);
             projectsListView.setAdapter(projectListAdapter);
 
             //Project clicked
@@ -126,5 +127,32 @@ public class ProjectsListFragment extends Fragment {
                 }
             });
         }
+    }
+
+    public void updateProject(Project updatedProject){
+
+        if(projects == null || projectListAdapter == null)
+            return;
+
+        //Find project (tha should be updated)
+        int position = 0;
+        for(Project project : projects) {
+
+            if (project.projectId.equals(updatedProject.projectId))
+                break;
+
+            position++;
+        }
+
+        //Project (tha should be updated) found
+        if(position < projects.size()){
+
+            //Replace project with the updated version
+            projects.remove(position);
+            projects.add(position, updatedProject);
+            projectListAdapter.notifyDataSetChanged();
+
+        }
+
     }
 }

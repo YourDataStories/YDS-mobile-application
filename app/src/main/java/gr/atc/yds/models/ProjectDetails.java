@@ -26,6 +26,20 @@ public class ProjectDetails extends Project {
 
     }
 
+
+    //Rate project
+    public void rate(Integer rating){
+
+        if(rating < 0 || average_rating == null || num_ratings == null)
+            return;
+
+        average_rating = ((num_ratings * average_rating) + rating) / (num_ratings + 1);
+
+        Util.log("Rate project. rate: " + rating + " - average: " + average_rating);
+
+        num_ratings++;
+    }
+
     //Get description
     public String getDescription(){
 

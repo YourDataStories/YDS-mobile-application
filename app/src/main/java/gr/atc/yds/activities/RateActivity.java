@@ -24,7 +24,7 @@ import gr.atc.yds.utils.Util;
 
 public class RateActivity extends PrivateActivity {
 
-    private String projectId;
+    private Long projectId;
     private String projectTitle;
     private float projectRate;
     private Authenticator auth;
@@ -37,7 +37,7 @@ public class RateActivity extends PrivateActivity {
         //Get arguments
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
-            projectId = getIntent().getExtras().getString("projectId");
+            projectId = getIntent().getExtras().getLong("projectId");
             projectTitle = getIntent().getExtras().getString("projectTitle");
             projectRate = getIntent().getExtras().getFloat("projectRate");
         }
@@ -109,8 +109,20 @@ public class RateActivity extends PrivateActivity {
         title.setText(projectTitle);
 
         //Project rating
+
+        if(projectRate == 0)
+            projectRate = 1;
+
         RatingBar ratingBar = (RatingBar) findViewById(R.id.activityRate_ratingBar);
         ratingBar.setRating(projectRate);
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if(rating<1.0f)
+                    ratingBar.setRating(1.0f);
+            }
+        });
+
     }
 
     //Rate project
@@ -126,7 +138,7 @@ public class RateActivity extends PrivateActivity {
 
         //Read rating from UI
         RatingBar ratingBar = (RatingBar) findViewById(R.id.activityRate_ratingBar);
-        final float rating = ratingBar.getRating();
+        final int rating = (int) ratingBar.getRating();
 
         //Submit rating
         showLoader();

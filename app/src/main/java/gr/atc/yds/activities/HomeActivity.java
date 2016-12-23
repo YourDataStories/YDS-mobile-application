@@ -1,5 +1,6 @@
 package gr.atc.yds.activities;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -23,17 +24,21 @@ import gr.atc.yds.enums.Message;
 import gr.atc.yds.enums.ViewMode;
 import gr.atc.yds.fragments.ProjectsListFragment;
 import gr.atc.yds.fragments.ProjectsMapFragment;
+import gr.atc.yds.models.Comment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Connectivity;
 import gr.atc.yds.utils.Util;
 
 public class HomeActivity extends PrivateActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
 
+    private static final int SHOW_PROJECT_DETAILS_REQUEST = 1;
+
     private List<Project> projects;
     private Gson gson;
     private ViewMode viewMode;
     private View listFragmentContainer;
     private View mapFragmentContainer;
+    private ProjectsListFragment projectsListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,16 +132,12 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     @Override
     public void onProjectMarkerClicked(Long projectId){
 
-        Util.log("project clicked: " + projectId);
-
         //Show project details
         startProjectActivity(projectId);
     }
 
     @Override
     public void onProjectItemClicked(Long projectId){
-
-        Util.log("project clicked: " + projectId);
 
         //Show project details
         startProjectActivity(projectId);
@@ -146,7 +147,46 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
         Intent i = new Intent(HomeActivity.this, ProjectActivity.class);
         i.putExtra("projectId", projectId);
-        startActivity(i);
+        startActivityForResult(i, SHOW_PROJECT_DETAILS_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //ProjectActivity returned result
+        if(requestCode == SHOW_PROJECT_DETAILS_REQUEST && resultCode == Activity.RESULT_OK){
+
+            Long projectId = data.getExtras().getLong("projectId");
+            Float average_rating = data.getExtras().getFloat("average_rating");
+            Integer num_ratings = data.getExtras().getInt("num_ratings");
+            Integer num_comments = data.getExtras().getInt("num_comments");
+
+            //Check if project updated
+            if(projects != null){
+                for(Project project : projects)
+                    if (project.projectId.equals(projectId)) {
+                        if (project.num_ratings != num_ratings || project.num_comments != num_comments) {
+
+                            project.average_rating = average_rating;
+                            project.num_ratings = num_ratings;
+                            project.num_comments = num_comments;
+                            projectUpdated(project);
+                            break;
+
+                        }
+                    }
+            }
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    //Project updated (from ProjectActivity)
+    private void projectUpdated(Project project){
+
+        if(projectsListFragment != null)
+            projectsListFragment.updateProject(project);
     }
 
     //Load projects
@@ -206,7 +246,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
     private void showProjectsInListFragment(){
 
-        ProjectsListFragment projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
+        projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
 
         //Attach fragment
         FragmentManager fm = getSupportFragmentManager();

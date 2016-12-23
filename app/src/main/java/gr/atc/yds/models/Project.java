@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import gr.atc.yds.utils.Util;
+
 /**
  * Created by ipapas on 08/12/16.
  */
@@ -35,17 +37,6 @@ public class Project {
             return title_el;
 
         return null;
-    }
-
-    //Rate project
-    public void rate(float rating){
-
-        if(rating < 0 || average_rating == null || num_ratings == null)
-            return;
-
-        average_rating = ((num_ratings * average_rating) + rating) / (num_ratings + 1);
-
-        num_ratings++;
     }
 
     //Get project's LatLng points

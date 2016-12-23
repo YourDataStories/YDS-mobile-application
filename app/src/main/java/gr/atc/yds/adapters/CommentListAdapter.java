@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -66,12 +67,12 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
 
                 Drawable drawable;
 
-                if(comment.type == Comment.Type.Twitter)
-                    drawable = ContextCompat.getDrawable(App.getContext(), R.drawable.img_twitter);
-                else if(comment.type == Comment.Type.RSS)
-                    drawable = ContextCompat.getDrawable(App.getContext(), R.drawable.img_rss);
-                else
+                if(comment.type == Comment.Type.YDS)
                     drawable = ContextCompat.getDrawable(App.getContext(), R.drawable.img_yds);
+                else if(comment.type == Comment.Type.Tweet)
+                    drawable = ContextCompat.getDrawable(App.getContext(), R.drawable.img_twitter);
+                else
+                    drawable = ContextCompat.getDrawable(App.getContext(), R.drawable.img_rss);
 
                 ImageView commentType = (ImageView) convertView.findViewById(R.id.commentType);
                 commentType.setImageDrawable(drawable);
@@ -79,43 +80,52 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
             }
 
             //Commenter name
-            if(comment.created_by != null){
-                TextView commenterNameTextView = (TextView) convertView.findViewById(R.id.commenterName);
-                commenterNameTextView.setText(comment.created_by);
-            }
+            TextView commenterNameTextView = (TextView) convertView.findViewById(R.id.commenterName);
+            commenterNameTextView.setText(comment.created_by);
 
             //Comment
-            if(comment.text != null){
-                TextView commentTextView = (TextView) convertView.findViewById(R.id.comment);
-                commentTextView.setText(comment.text);
-            }
+            TextView commentTextView = (TextView) convertView.findViewById(R.id.comment);
+            commentTextView.setText(comment.text);
 
             //Time-ago
             String timeAgo = comment.getTimeago();
-            if(timeAgo != null){
-                TextView timeAgoTextView = (TextView) convertView.findViewById(R.id.timeago);
-                timeAgoTextView.setText(timeAgo);
+            TextView timeAgoTextView = (TextView) convertView.findViewById(R.id.timeago);
+            timeAgoTextView.setText(timeAgo);
+
+
+            //Show thumbsUp/thumbsDown buttons only in YDS-type comments
+            if(comment.type == Comment.Type.YDS){
+
+                //Thumbs up
+                LinearLayout thumbsUp = (LinearLayout) convertView.findViewById(R.id.thumbsUp);
+                thumbsUp.setVisibility(View.VISIBLE);
+
+                TextView thumbsUpNumber = (TextView) convertView.findViewById(R.id.thumbsUpNumber);
+                ImageView thumbsUpBtn = (ImageView) convertView.findViewById(R.id.thumbsUpBtn);
+
+                if(comment.reaction == Comment.Reaction.like)
+                    markThumbsUpAsClicked(thumbsUpBtn, thumbsUpNumber);
+                else
+                    markThumbsUpAsUnclicked(thumbsUpBtn, thumbsUpNumber);
+
+                if(comment.likes != null)
+                    thumbsUpNumber.setText(Integer.toString(comment.likes));
+
+                //Thumbs down
+                LinearLayout thumbsDown = (LinearLayout) convertView.findViewById(R.id.thumbsDown);
+                thumbsDown.setVisibility(View.VISIBLE);
+
+                TextView thumbsDownNumber = (TextView) convertView.findViewById(R.id.thumbsDownNumber);
+                ImageView thumbsDownBtn = (ImageView) convertView.findViewById(R.id.thumbsDownBtn);
+
+                if(comment.reaction == Comment.Reaction.dislike)
+                    markThumbsDownAsClicked(thumbsDownBtn, thumbsDownNumber);
+                else
+                    markThumbsDownAsUnclicked(thumbsDownBtn, thumbsDownNumber);
+
+                if(comment.dislikes != null)
+                    thumbsDownNumber.setText(Integer.toString(comment.dislikes));
             }
-
-            //Thumbs up
-            TextView thumbsUpNumber = (TextView) convertView.findViewById(R.id.thumbsUpNumber);
-            ImageView thumbsUpBtn = (ImageView) convertView.findViewById(R.id.thumbsUpBtn);
-            if(comment.reaction == Comment.Reaction.like)
-                markThumbsUpAsClicked(thumbsUpBtn, thumbsUpNumber);
-            else
-                markThumbsUpAsUnclicked(thumbsUpBtn, thumbsUpNumber);
-            if(comment.likes != null)
-                thumbsUpNumber.setText(Integer.toString(comment.likes));
-
-            //Thumbs down
-            TextView thumbsDownNumber = (TextView) convertView.findViewById(R.id.thumbsDownNumber);
-            ImageView thumbsDownBtn = (ImageView) convertView.findViewById(R.id.thumbsDownBtn);
-            if(comment.reaction == Comment.Reaction.dislike)
-                markThumbsDownAsClicked(thumbsDownBtn, thumbsDownNumber);
-            else
-                markThumbsDownAsUnclicked(thumbsDownBtn, thumbsDownNumber);
-            if(comment.dislikes != null)
-                thumbsDownNumber.setText(Integer.toString(comment.dislikes));
 
             //Set UI event listeners
             setEventListeners(position, convertView, parent);

@@ -13,7 +13,9 @@ public class Comment {
     public enum Type {
         YDS,
         RSS,
-        Twitter
+        NEWS,
+        BLOG,
+        Tweet
     }
 
     public enum Reaction {
@@ -21,7 +23,7 @@ public class Comment {
         dislike
     }
 
-    public int id;
+    public Integer id;
     public Type type;
     public String created_by;
     public String text;
@@ -36,6 +38,7 @@ public class Comment {
 
     public Comment(Type type, String created_by, String text){
 
+        this.id = null;
         this.type = type;
         this.created_by = created_by;
         this.text = text;

@@ -67,6 +67,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginRight="16dp"
             android:rating="3"
+            android:stepSize="1"
             android:progressTint="@color/ratingBarColor"
             android:progressBackgroundTint="@color/textLightColor"/>
 
