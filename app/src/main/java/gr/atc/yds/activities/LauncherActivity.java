@@ -16,7 +16,7 @@ public class LauncherActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launcher);
 
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
     }
 
     @Override

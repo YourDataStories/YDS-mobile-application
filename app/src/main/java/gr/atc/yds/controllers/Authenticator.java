@@ -9,10 +9,18 @@ import gr.atc.yds.models.Token;
  */
 public class Authenticator {
 
-    StorageController storage;
+    private static Authenticator authenticator = null;
+    private StorageController storage;
 
-    public Authenticator(){
-        storage = new StorageController();
+    private Authenticator(){
+        storage = StorageController.getInstance();
+    }
+
+    public static Authenticator getInstance(){
+        if(authenticator == null)
+            authenticator = new Authenticator();
+
+        return authenticator;
     }
 
     //Interfaces
@@ -57,14 +65,14 @@ public class Authenticator {
     //Sign In
     public void signIn(String username, String password, final ResponseListener responseListener){
 
-        HeadsApiClient client = new HeadsApiClient();
+        HeadsApiClient client = HeadsApiClient.getInstance();
         client.signIn(username, password, new HeadsApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 
                 //Save token
                 Token token = (Token) object;
-                StorageController storage = new StorageController();
+                StorageController storage = StorageController.getInstance();
                 storage.saveData("token", token);
 
                 responseListener.onSuccess();
@@ -81,7 +89,7 @@ public class Authenticator {
     public void signOut(){
 
         //Delete saved token
-        StorageController storage = new StorageController();
+        StorageController storage = StorageController.getInstance();
         storage.deleteData("token");
     }
     public void signOut(final ResponseListener responseListener){
@@ -94,7 +102,7 @@ public class Authenticator {
     //Sign Up
     public void signUp(final String username, final String password, final ResponseListener responseListener){
 
-        HeadsApiClient client = new HeadsApiClient();
+        HeadsApiClient client = HeadsApiClient.getInstance();
         client.signUp(username, password, new HeadsApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {

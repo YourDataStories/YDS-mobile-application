@@ -46,7 +46,7 @@ public class CommentActivity extends PrivateActivity {
         //Init
         initUI();
         setUIEventListeners();
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
 
     }
 
@@ -120,7 +120,7 @@ public class CommentActivity extends PrivateActivity {
 
         //Submit comment
         showLoader();
-        YDSApiClient client = new YDSApiClient();
+        YDSApiClient client = YDSApiClient.getInstance();
         client.commentProject(projectId, comment, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {

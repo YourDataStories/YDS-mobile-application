@@ -59,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         //Sign up
                         showLoader();
-                        Authenticator auth = new Authenticator();
+                        Authenticator auth = Authenticator.getInstance();
                         auth.signUp(username, password, new Authenticator.ResponseListener() {
                             @Override
                             public void onSuccess() {

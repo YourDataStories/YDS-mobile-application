@@ -52,7 +52,7 @@ public class SignInActivity extends AppCompatActivity {
 
                     //Sign in
                     showLoader();
-                    Authenticator auth = new Authenticator();
+                    Authenticator auth = Authenticator.getInstance();
                     auth.signIn(username, password, new Authenticator.ResponseListener() {
                         @Override
                         public void onSuccess() {

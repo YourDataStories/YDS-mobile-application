@@ -62,7 +62,7 @@ public class ProjectDetails extends Project {
     //Get buyer
     public String getBuyer(){
 
-        if(buyer_translation_en != null && buyer_translation_en.size() > 0)
+        if(buyer_translation_en != null && buyer_translation_en.size() > 0 && buyer_translation_en.get(0) != null)
             return buyer_translation_en.get(0);
 
         if(buyer_name != null)

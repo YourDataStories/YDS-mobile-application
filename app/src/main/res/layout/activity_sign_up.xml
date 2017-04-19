@@ -65,7 +65,9 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/redirectToSignInActivityText"
-                android:id="@+id/redirectToSignInActivityTextView" />
+                android:id="@+id/redirectToSignInActivityTextView"
+                android:textColor="@android:color/darker_gray"
+                android:textStyle="bold"/>
 
             <TextView
                 android:layout_width="wrap_content"

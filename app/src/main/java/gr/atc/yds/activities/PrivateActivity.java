@@ -19,7 +19,7 @@ public class PrivateActivity extends AppCompatActivity {
         super.onStart();
 
         //Allow access only to logged-in users
-        Authenticator auth = new Authenticator();
+        Authenticator auth = Authenticator.getInstance();
         if(!auth.isUserLoggedIn())
             finish();
 
@@ -28,7 +28,7 @@ public class PrivateActivity extends AppCompatActivity {
     //Logout
     protected void logout(){
 
-        Authenticator auth = new Authenticator();
+        Authenticator auth = Authenticator.getInstance();
         auth.signOut(new Authenticator.ResponseListener() {
             @Override
             public void onSuccess() {

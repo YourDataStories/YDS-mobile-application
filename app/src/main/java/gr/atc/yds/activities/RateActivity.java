@@ -50,7 +50,7 @@ public class RateActivity extends PrivateActivity {
         //Init
         initUI();
         setUIEventListeners();
-        auth = new Authenticator();
+        auth = Authenticator.getInstance();
     }
 
     //Set UI event listeners
@@ -142,7 +142,7 @@ public class RateActivity extends PrivateActivity {
 
         //Submit rating
         showLoader();
-        YDSApiClient client = new YDSApiClient();
+        YDSApiClient client = YDSApiClient.getInstance();
         client.rateProject(projectId, rating, username, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {

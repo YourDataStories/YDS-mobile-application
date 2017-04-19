@@ -10,14 +10,23 @@ import com.google.gson.Gson;
  */
 public class StorageController {
 
+    private static StorageController storageController = null;
     private SharedPreferences prefs;
     private Gson gson;
 
     //Constructor
-    public StorageController(){
+    private StorageController(){
         Context context = App.getContext();
         prefs = context.getSharedPreferences("gr.atc.yds", Context.MODE_PRIVATE);
         gson = new Gson();
+    }
+
+    //Get instance (singleton pattern)
+    public static StorageController getInstance(){
+        if(storageController == null)
+            storageController = new StorageController();
+
+        return storageController;
     }
 
     //Save data

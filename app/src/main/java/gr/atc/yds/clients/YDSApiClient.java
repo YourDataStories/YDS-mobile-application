@@ -33,6 +33,7 @@ import retrofit2.http.Query;
  */
 public class YDSApiClient extends Client{
 
+    private static YDSApiClient ydsApiClient = null;
     private static final String YDSBaseUrl = App.getContext().getString(R.string.YDS_BASE_URL);
     private WebService service;
     private Gson gson;
@@ -115,7 +116,7 @@ public class YDSApiClient extends Client{
         }
     }
 
-    public YDSApiClient(){
+    private YDSApiClient(){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(YDSBaseUrl)
@@ -124,6 +125,13 @@ public class YDSApiClient extends Client{
         service = retrofit.create(WebService.class);
 
         gson = new Gson();
+    }
+
+    public static YDSApiClient getInstance(){
+        if(ydsApiClient == null)
+            ydsApiClient = new YDSApiClient();
+
+        return ydsApiClient;
     }
 
     //Get projects

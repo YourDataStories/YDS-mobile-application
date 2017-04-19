@@ -1,5 +1,7 @@
 package gr.atc.yds.clients;
 
+import android.os.health.HealthStats;
+
 import org.json.JSONObject;
 
 import gr.atc.yds.R;
@@ -21,6 +23,7 @@ import retrofit2.http.POST;
 
 public class HeadsApiClient extends Client{
 
+    private static HeadsApiClient headsApiClient = null;
     private static final String HeadsBaseUrl = App.getContext().getString(R.string.HEADS_BASE_URL);
     private WebService service;
 
@@ -45,13 +48,20 @@ public class HeadsApiClient extends Client{
 
     }
 
-    public HeadsApiClient(){
+    private HeadsApiClient(){
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(HeadsBaseUrl)
                 .build();
 
         service = retrofit.create(WebService.class);
+    }
+
+    public static HeadsApiClient getInstance(){
+        if(headsApiClient == null)
+            headsApiClient = new HeadsApiClient();
+
+        return headsApiClient;
     }
 
     //Sign In

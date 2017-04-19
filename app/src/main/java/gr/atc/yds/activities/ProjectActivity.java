@@ -228,8 +228,8 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     @Override
     public void onCommentLike(Comment comment) {
 
-        YDSApiClient client = new YDSApiClient();
-        Authenticator auth = new Authenticator();
+        YDSApiClient client = YDSApiClient.getInstance();
+        Authenticator auth = Authenticator.getInstance();
 
         String username = auth.getUsername();
         client.likeComment(comment.id, username, new YDSApiClient.ResponseListener() {
@@ -247,8 +247,8 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     @Override
     public void onCommentDislike(Comment comment) {
 
-        YDSApiClient client = new YDSApiClient();
-        Authenticator auth = new Authenticator();
+        YDSApiClient client = YDSApiClient.getInstance();
+        Authenticator auth = Authenticator.getInstance();
 
         String username = auth.getUsername();
         client.dislikeComment(comment.id, username, new YDSApiClient.ResponseListener() {
@@ -358,7 +358,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
     private void loadProject(Long projectId){
 
         //Get current user's identity
-        String username = new Authenticator().getUsername();
+        String username = Authenticator.getInstance().getUsername();
 
         if(username == null){
             logout();
@@ -368,7 +368,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
         hideContent();
         showLoader();
 
-        YDSApiClient client = new YDSApiClient();
+        YDSApiClient client = YDSApiClient.getInstance();
         client.getProjectDetails(projectId, username, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
@@ -500,7 +500,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
             return;
 
         //Get current user's identity
-        String username = new Authenticator().getUsername();
+        String username = Authenticator.getInstance().getUsername();
 
         if(username == null){
             logout();
@@ -509,7 +509,7 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
         showLoader();
 
-        YDSApiClient client = new YDSApiClient();
+        YDSApiClient client = YDSApiClient.getInstance();
         client.getProjectComments(project.projectId, username, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {

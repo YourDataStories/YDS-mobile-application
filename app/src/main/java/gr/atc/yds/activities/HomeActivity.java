@@ -193,7 +193,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     private void loadProjects(){
 
         showLoader();
-        YDSApiClient client = new YDSApiClient();
+        YDSApiClient client = YDSApiClient.getInstance();
         client.getProjects(new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
