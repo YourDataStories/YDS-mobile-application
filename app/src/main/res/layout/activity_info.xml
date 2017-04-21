@@ -44,14 +44,32 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/my_toolbar">
 
-        <TextView
-            android:text="@string/info"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/activityInfo_infoTextView"
-            android:padding="10dp"
-            android:textColor="@color/textDarkColor"
-            android:textStyle="italic"/>
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:text="@string/info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/activityInfo_infoTextView"
+                android:textColor="@color/textDarkColor"
+                android:textStyle="italic"/>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:text="@string/privacyPolicy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/activityInfo_privacyPolicyTextView"
+                android:textColor="@color/textDarkColor"
+                android:textStyle="italic"/>
+
+        </LinearLayout>
+
+
 
     </ScrollView>
 

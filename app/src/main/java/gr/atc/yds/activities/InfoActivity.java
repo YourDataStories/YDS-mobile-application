@@ -45,6 +45,9 @@ public class InfoActivity extends AppCompatActivity {
         TextView infoTextView = (TextView) findViewById(R.id.activityInfo_infoTextView);
         infoTextView.setMovementMethod(LinkMovementMethod.getInstance());
 
+        TextView privacyPolicyTextView = (TextView) findViewById(R.id.activityInfo_privacyPolicyTextView);
+        privacyPolicyTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
         //Set size
         setSize();
 
@@ -59,7 +62,7 @@ public class InfoActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .95), (int) (height * .4));
+        getWindow().setLayout((int) (width * .95), (int) (height * .43));
     }
 
     //Set UI event listeners
