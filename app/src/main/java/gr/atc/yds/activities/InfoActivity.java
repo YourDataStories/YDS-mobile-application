@@ -59,7 +59,7 @@ public class InfoActivity extends AppCompatActivity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width * .95), (int) (height * .4));
+        getWindow().setLayout((int) (width * .95), (int) (height * .5));
     }
 
     //Set UI event listeners

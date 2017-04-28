@@ -54,6 +54,10 @@ public class Util {
                 textMessage = App.getContext().getString(R.string.timeOut);
                 break;
 
+            case USERNAME_ALREADY_TAKEN:
+                textMessage = App.getContext().getString(R.string.usernameIsTaken);
+                break;
+
             default:
                 textMessage = App.getContext().getString(R.string.somethingWentWrong);
         }
