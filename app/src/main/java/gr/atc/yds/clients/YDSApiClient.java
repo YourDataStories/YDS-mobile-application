@@ -43,17 +43,19 @@ public class YDSApiClient extends Client{
 
         //Get projects
         @GET("getProjects")
-        Call<ResponseBody> getProjects();
+        Call<ResponseBody> getProjects(@Query("lat") double lat, @Query("lon") double lon, @Query("radius") double radius, @Query("start") int offset);
+
+        //Get close project
+        @GET("getCloseProject")
+        Call<ResponseBody> getCloseProject(@Query("lat") double lat, @Query("lon") double lon);
 
         //Get project details
         @GET("getProjectDetails")
-        Call<ResponseBody> getProjectDetails(@Query("projectId") Long projectId,
-                                             @Query("username") String username);
+        Call<ResponseBody> getProjectDetails(@Query("projectId") Long projectId, @Query("username") String username);
 
         //Get project comments
         @GET("getProjectComments")
-        Call<ResponseBody> getProjectComments(@Query("projectId") Long projectId,
-                                              @Query("username") String username);
+        Call<ResponseBody> getProjectComments(@Query("projectId") Long projectId, @Query("username") String username);
 
         //Rate project
         @POST("addProjectRate")
@@ -66,7 +68,6 @@ public class YDSApiClient extends Client{
         //React to comment
         @POST("addCommentReaction")
         Call<ResponseBody> reactToComment(@Body RequestBody body);
-
 
     }
 
@@ -135,9 +136,9 @@ public class YDSApiClient extends Client{
     }
 
     //Get projects
-    public void getProjects(final ResponseListener responseListener){
+    public void getProjects(double lat, double lon, double radius, int offset, final ResponseListener responseListener){
 
-        Call<ResponseBody> call = service.getProjects();
+        Call<ResponseBody> call = service.getProjects(lat, lon, radius, offset);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -153,6 +154,46 @@ public class YDSApiClient extends Client{
                         List<Project> projects = gson.fromJson(projectsString, new TypeToken<List<Project>>(){}.getType());
 
                         responseListener.onSuccess(projects);
+
+                    }
+
+                    //Http != 200
+                    else
+                        responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                handleFailure(t, responseListener);
+            }
+        });
+    }
+
+    //Get close project
+    public void getCloseProject(double lat, double lon, final ResponseListener responseListener){
+
+        Call<ResponseBody> call = service.getCloseProject(lat, lon);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+                try {
+
+                    //Http == 200
+                    if (response.isSuccessful()) {
+
+                        //TODO Get project's ID and name
+                        JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
+                        String projectString = responseBodyJSONObject.getString("docs");
+                        Project project = gson.fromJson(projectString, Project.class);
+
+                        responseListener.onSuccess(project);
 
                     }
 

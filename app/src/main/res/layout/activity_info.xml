@@ -42,6 +42,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingBottom="10dp"
         android:layout_below="@+id/my_toolbar">
 
         <LinearLayout
@@ -58,14 +59,6 @@
                 android:textColor="@color/textDarkColor"
                 android:textStyle="italic"/>
 
-            <TextView
-                android:layout_marginTop="10dp"
-                android:text="@string/privacyPolicy"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/activityInfo_privacyPolicyTextView"
-                android:textColor="@color/textDarkColor"
-                android:textStyle="italic"/>
 
         </LinearLayout>
 

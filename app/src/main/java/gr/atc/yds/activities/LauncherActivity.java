@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.Authenticator;
+import gr.atc.yds.services.CloseProjectService;
 
 public class LauncherActivity extends AppCompatActivity {
 

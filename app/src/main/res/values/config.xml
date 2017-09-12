@@ -8,6 +8,20 @@
     <string name="CURRENCY">€</string>
     <integer name="COLLAPSED_DESCRIPTION_LENGTH">120</integer>
     <string name="DATE_TIME_FORMAT">yyyy-MM-dd\'T\'HH:mm:ss\'Z\'</string>
+    
+    <integer name="LOCATION_INTERVAL_MILLIS">10000</integer>
+    <integer name="LOCATION_FASTEST_INTERVAL_MILLIS">10000</integer>
+
+    <!-- If device's location is not available, search for projects inside this circle-area -->
+    <string name="DEFAULT_LAT">38.030786</string>
+    <string name="DEFAULT_LON">23.796387</string>
+    <string name="DEFAULT_RADIUS_IN_KILOMETERS">50</string>
+
+    <!-- Default rectangle area of projects -->
+    <!--<string name="TOP_LEFT_LAT">40.975233</string>-->
+    <!--<string name="TOP_LEFT_LON">18.885498</string>-->
+    <!--<string name="BOTTOM_RIGHT_LAT">35.024936</string>-->
+    <!--<string name="BOTTOM_RIGHT_LON">27.344971</string>-->
 
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
         AIzaSyCI4x40KsrRb8-9X0ZH0rlhQT8fz8DIiWs

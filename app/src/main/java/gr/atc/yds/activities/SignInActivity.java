@@ -13,6 +13,7 @@ import android.widget.TextView;
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.Authenticator;
 import gr.atc.yds.enums.Message;
+import gr.atc.yds.services.CloseProjectService;
 import gr.atc.yds.utils.Form;
 import gr.atc.yds.utils.Util;
 
@@ -62,7 +63,7 @@ public class SignInActivity extends AppCompatActivity {
                             //Start HomeActivity
                             Intent i = new Intent(SignInActivity.this, HomeActivity.class);
                             startActivity(i);
-
+                            finish();
                         }
 
                         @Override

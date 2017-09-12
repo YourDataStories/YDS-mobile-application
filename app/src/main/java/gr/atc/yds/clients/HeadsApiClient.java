@@ -131,7 +131,7 @@ public class HeadsApiClient extends Client{
 
                     //Http != 200
                     else
-                        responseListener.onFailure(Message.SOMETHING_WENT_WRONG);
+                        responseListener.onFailure(Message.USERNAME_ALREADY_TAKEN);
 
 
 

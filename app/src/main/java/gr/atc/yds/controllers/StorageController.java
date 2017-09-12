@@ -37,7 +37,6 @@ public class StorageController {
 
         //Save
         prefs.edit().remove(key).putString(key, dataString).apply();
-
     }
 
     //Load data

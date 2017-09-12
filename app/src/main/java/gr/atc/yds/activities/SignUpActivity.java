@@ -69,6 +69,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 //Start HomeActivity
                                 Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
                                 startActivity(i);
+                                finish();
 
                             }
 

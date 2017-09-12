@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import gr.atc.yds.controllers.Authenticator;
 import gr.atc.yds.enums.Message;
+import gr.atc.yds.services.CloseProjectService;
 import gr.atc.yds.utils.Util;
 
 /**
@@ -22,12 +23,12 @@ public class PrivateActivity extends AppCompatActivity {
         Authenticator auth = Authenticator.getInstance();
         if(!auth.isUserLoggedIn())
             finish();
-
     }
 
     //Logout
     protected void logout(){
 
+        //Logout
         Authenticator auth = Authenticator.getInstance();
         auth.signOut(new Authenticator.ResponseListener() {
             @Override
@@ -43,5 +44,8 @@ public class PrivateActivity extends AppCompatActivity {
                 Util.showToast(message);
             }
         });
+
+        //Stop CloseProjectService
+        CloseProjectService.stop(this);
     }
 }

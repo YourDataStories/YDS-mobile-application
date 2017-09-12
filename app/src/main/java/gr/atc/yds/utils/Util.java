@@ -1,6 +1,7 @@
 package gr.atc.yds.utils;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -52,6 +53,10 @@ public class Util {
 
             case TIMEOUT:
                 textMessage = App.getContext().getString(R.string.timeOut);
+                break;
+
+            case USERNAME_ALREADY_TAKEN:
+                textMessage = App.getContext().getString(R.string.usernameIsTaken);
                 break;
 
             default:
@@ -136,6 +141,11 @@ public class Util {
         String numberAsString = decimalFormat.format(number);
 
         return numberAsString;
+    }
+
+    //Check if permission granted
+    public static boolean permissionGranted(int[] grantResults){
+        return (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
     }
 
 
