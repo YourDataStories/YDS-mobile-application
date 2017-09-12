@@ -4,11 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 
 
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -21,24 +23,27 @@ import gr.atc.yds.R;
 import gr.atc.yds.adapters.ProjectListAdapter;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
-import gr.atc.yds.utils.Util;
 
 public class ProjectsListFragment extends Fragment {
 
     public interface Listener {
         void onProjectItemClicked(Long projectID);
+        void onProjectListScrolledToBottom();
     }
 
     private Listener listener;
     private static final String ARG_PARAM1 = "projects";
     private List<Project> projects;
     private ProjectListAdapter projectListAdapter;
+    private ListView projectsListView;
     private View view;
+    private boolean scrolledToBottom;
 
     public ProjectsListFragment() {
 
         view = null;
         projects = null;
+        scrolledToBottom = false;
     }
 
     public static ProjectsListFragment newInstance(String param1) {
@@ -92,12 +97,21 @@ public class ProjectsListFragment extends Fragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        projectsListView = (ListView) view.findViewById(R.id.fragmentProjectsList_projectsListView);
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
 
-        //Show project list
-        showProjectsOnList();
+        //Set project list adapter
+        setListAdapter();
 
+        //Set project list listeners
+        setListListeners();
     }
 
     @Override
@@ -106,29 +120,76 @@ public class ProjectsListFragment extends Fragment {
         listener = null;
     }
 
-    private void showProjectsOnList(){
+    /**
+     * Sets event listeners to projects' ListView
+     */
+    private void setListListeners(){
 
-        if(projects != null && view != null){
+        //Project clicked
+        projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            ListView projectsListView = (ListView) view.findViewById(R.id.fragmentProjectsList_projectsListView);
-            projectListAdapter = new ProjectListAdapter(App.getContext(), projects);
-            projectsListView.setAdapter(projectListAdapter);
-
-            //Project clicked
-            projectsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                    if(listener != null){
-                        Project clickedProject = projects.get(i);
-                        listener.onProjectItemClicked(clickedProject.projectId);
-                    }
-
+                if(listener != null){
+                    Project clickedProject = projects.get(i);
+                    listener.onProjectItemClicked(clickedProject.projectId);
                 }
-            });
-        }
+            }
+        });
+
+        //List view scrolled
+        projectsListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+                if (projectsListView.getAdapter() == null || projectsListView.getAdapter().getCount() == 0)
+                    return ;
+
+                int l = visibleItemCount + firstVisibleItem;
+                if (l >= totalItemCount && !scrolledToBottom) {
+
+                    //List view scrolled to bottom
+                    scrolledToBottom = true;
+                    listener.onProjectListScrolledToBottom();
+                }
+            }
+        });
     }
 
+    /**
+     * Sets list adapter
+     */
+    private void setListAdapter(){
+
+        if(projects == null)
+            return;
+
+        projectListAdapter = new ProjectListAdapter(App.getContext(), projects);
+        projectsListView.setAdapter(projectListAdapter);
+    }
+
+    /**
+     * Adds projects to ListView
+     * @param newProjects list of new projects
+     */
+    public void addProjects(List<Project> newProjects){
+
+        if(projects == null || projectListAdapter == null)
+            return;
+
+        projects.addAll(newProjects);
+        projectListAdapter.notifyDataSetChanged();
+        scrolledToBottom = false;
+    }
+
+    /**
+     * Updates an already shown project
+     * @param updatedProject updated project
+     */
     public void updateProject(Project updatedProject){
 
         if(projects == null || projectListAdapter == null)

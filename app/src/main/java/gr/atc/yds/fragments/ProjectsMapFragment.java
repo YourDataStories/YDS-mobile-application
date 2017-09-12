@@ -125,7 +125,6 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
         Util.log("onMapReady");
 
         initMap(googleMap);
-        showProjectsOnMap();
 
         //Show the current location icon
         if (ContextCompat.checkSelfPermission(App.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -142,6 +141,16 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
             listener.onProjectMarkerClicked(clickedProject.projectId);
 
         return false;
+    }
+
+    /**
+     * Adds new projects to map
+     * @param projects list of projects that will be added to map
+     */
+    public void addProjects(List<Project> projects) {
+
+        for(Project project : projects)
+            showProjectOnMap(project);
     }
 
     private void attachMap(){
@@ -167,17 +176,6 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
 
     }
 
-    private void showProjectsOnMap(){
-
-        Util.log("showProjectsOnMap");
-
-        if(projects != null && map != null)
-            for(Project project : projects)
-                showProjectOnMap(project);
-
-
-    }
-
     //Draw project on map
     private void showProjectOnMap(Project project){
 
@@ -185,7 +183,7 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
 
         List<LatLng> points = project.getPoints();
 
-        if(points.size() <= 0)
+        if(points.size() <= 0 || map == null)
             return;
 
         int color =  ContextCompat.getColor(App.getContext(), R.color.colorPrimary);

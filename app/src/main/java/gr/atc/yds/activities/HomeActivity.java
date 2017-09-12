@@ -21,11 +21,13 @@ import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import gr.atc.yds.R;
 import gr.atc.yds.clients.YDSApiClient;
 import gr.atc.yds.controllers.LocationTracker;
+import gr.atc.yds.controllers.ProjectsController;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.enums.ViewMode;
 import gr.atc.yds.fragments.ProjectsListFragment;
@@ -34,18 +36,21 @@ import gr.atc.yds.models.Project;
 import gr.atc.yds.services.CloseProjectService;
 import gr.atc.yds.utils.Util;
 
+import static android.R.id.message;
+
 public class HomeActivity extends PrivateActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
 
     private static final int SHOW_PROJECT_DETAILS_REQUEST = 1;
     private static final int REQUEST_LOCATION_PERMISSION = 2;
 
-    private List<Project> projects;
-    private Gson gson;
+    private List<Project> projects = new ArrayList<>();
+    private Gson gson = new Gson();;
     private ViewMode viewMode;
     private View listFragmentContainer;
     private View mapFragmentContainer;
     private ProjectsListFragment projectsListFragment;
-    private int projectsOffset; //Projects are loaded via pagination, so we use offset in order to request the next page of projects
+    private ProjectsMapFragment projectsMapFragment;
+    private ProjectsController projectsController = new ProjectsController();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +58,6 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
         //Init
         initUI();
-        projects = null;
-        projectsOffset = 0;
-        gson = new Gson();
-        listFragmentContainer = findViewById(R.id.activityHome_listFragment);
-        mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
         switchToListView();
 
         //Location permission is granted
@@ -70,7 +70,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     }
 
     /**
-     *
+     * Invoked if location permission granted
      */
     private void handleLocationPermissionGranted(){
 
@@ -81,9 +81,8 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
                 Log.i("YDS", String.format("current location: %f,%f", location.getLatitude(), location.getLongitude()));
 
                 //Load projects found around the current location
-                double lat = location.getLatitude();
-                double lon = location.getLongitude();
-                loadProjects(lat, lon, projectsOffset);
+                projectsController.setSearchArea(location.getLatitude(), location.getLongitude());
+                loadProjects();
             }
         });
 
@@ -91,10 +90,13 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         CloseProjectService.start(this);
     }
 
+    /**
+     * Invoked if location permission denied
+     */
     private void handleLocationPermissionDenied(){
 
         //Load projects found in the default area
-        loadProjects(projectsOffset);
+        loadProjects();
     }
 
     //Initialize
@@ -109,6 +111,23 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
         //Set title
         setTitle(getString(R.string.activityHomeTitle));
+
+        listFragmentContainer = findViewById(R.id.activityHome_listFragment);
+        mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
+
+        //Attach project list fragment
+        projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.activityHome_listFragment, projectsListFragment);
+        ft.commit();
+
+        //Attach project map fragment
+        projectsMapFragment = ProjectsMapFragment.newInstance(gson.toJson(projects));
+        FragmentManager fm2 = getSupportFragmentManager();
+        FragmentTransaction ft2 = fm2.beginTransaction();
+        ft2.replace(R.id.activityHome_mapFragment, projectsMapFragment);
+        ft2.commit();
 
     }
 
@@ -187,6 +206,13 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         startProjectActivity(projectId);
     }
 
+    @Override
+    public void onProjectListScrolledToBottom() {
+
+        //Load more projects
+        loadProjects();
+    }
+
     private void startProjectActivity(Long projectId){
 
         Intent i = new Intent(HomeActivity.this, ProjectActivity.class);
@@ -250,54 +276,18 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     }
 
     /**
-     * Loads projects found inside the default area
+     * Loads projects
      */
-    private void loadProjects(int offset){
-
-//        double topLeftLat = Double.parseDouble(getResources().getString(R.string.TOP_LEFT_LAT));
-//        double topLeftLon = Double.parseDouble(getResources().getString(R.string.TOP_LEFT_LON));
-//        double bottomRightLat = Double.parseDouble(getResources().getString(R.string.BOTTOM_RIGHT_LAT));
-//        double bottomRightLon = Double.parseDouble(getResources().getString(R.string.BOTTOM_RIGHT_LON));
-
-        double defaultLat = Double.parseDouble(getResources().getString(R.string.DEFAULT_LAT));
-        double defaultLon = Double.parseDouble(getResources().getString(R.string.DEFAULT_LON));
-        double defaultRadius = Double.parseDouble(getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS));
-
-        loadProjects(defaultLat, defaultLon, defaultRadius, offset);
-    }
-
-    /**
-     * Loads projects found around a center. It uses a default radius
-     *
-     * @param lat latitude of center
-     * @param lon longitude of center
-     */
-    private void loadProjects(double lat, double lon, int offset){
-
-        double defaultRadius = Double.parseDouble(getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS));
-
-        loadProjects(lat, lon, defaultRadius, offset);
-    }
-
-    /**
-     * Loads projects found inside a circle area
-     *
-     * @param lat latitude of circle's center
-     * @param lon longitude of circle's center
-     * @param radius radius of center (in kilometers)
-     */
-    private void loadProjects(double lat, double lon, double radius, int offset){
+    private void loadProjects(){
 
         showLoader();
-        YDSApiClient client = YDSApiClient.getInstance();
-        client.getProjects(lat, lon, radius, offset, new YDSApiClient.ResponseListener() {
+        projectsController.loadProjects(new ProjectsController.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
-
                 hideLoader();
-                projects = (List<Project>) object;
 
-                showProjects();
+                List<Project> projects = (List<Project>) object;
+                showProjects(projects);
             }
 
             @Override
@@ -333,34 +323,22 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     }
 
     //Show projects (inside fragments)
-    private void showProjects(){
+    private void showProjects(List<Project> projects){
 
-        showProjectsInListFragment();
-        showProjectsInMapFragment();
-
+        showProjectsInListFragment(projects);
+        showProjectsInMapFragment(projects);
     }
 
-    private void showProjectsInListFragment(){
+    private void showProjectsInListFragment(List<Project> projects){
 
-        projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
-
-        //Attach fragment
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.activityHome_listFragment, projectsListFragment);
-        ft.commit();
+        if(projectsListFragment != null)
+            projectsListFragment.addProjects(projects);
     }
 
-    private void showProjectsInMapFragment(){
+    private void showProjectsInMapFragment(List<Project> projects){
 
-        ProjectsMapFragment projectsMapFragment = ProjectsMapFragment.newInstance(gson.toJson(projects));
-
-        //Attach fragment
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.activityHome_mapFragment, projectsMapFragment);
-        ft.commit();
-
+        if(projectsMapFragment != null)
+            projectsMapFragment.addProjects(projects);
     }
 
     //Show loader
