@@ -35,8 +35,6 @@ public class ProjectDetails extends Project {
 
         average_rating = ((num_ratings * average_rating) + rating) / (num_ratings + 1);
 
-        Util.log("Rate project. rate: " + rating + " - average: " + average_rating);
-
         num_ratings++;
     }
 

@@ -7,6 +7,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.github.kinnonii.timeago.TimeAgo;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.maps.android.SphericalUtil;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -27,11 +30,6 @@ import gr.atc.yds.enums.Message;
 public class Util {
 
     private final static String DATE_TIME_FORMAT = App.getContext().getString(R.string.DATE_TIME_FORMAT);
-
-    //Show log message
-    public static void log(String message){
-        Log.i(App.logTag, message);
-    }
 
     //Show toast message
     public static void showToast(String message){
@@ -84,9 +82,6 @@ public class Util {
     //Compute timeAgo of dateTime
     public static String getTimeago(String dateAsString){
 
-        Util.log("input: " + dateAsString);
-        Util.log("format: " + DATE_TIME_FORMAT);
-
         try {
 
             DateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
@@ -94,8 +89,6 @@ public class Util {
 
             TimeAgo time = new TimeAgo("en");
             String timeAgo = time.timeAgo(date);
-
-            Util.log("output: " + timeAgo);
 
             return timeAgo;
 
@@ -148,5 +141,28 @@ public class Util {
         return (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
     }
 
+    /**
+     * Calculates and returns bounds (SouthWest and NorthEast coordinates) of a circle
+     * @param lat latitude of circle's center
+     * @param lon longitude of circle's center
+     * @param radius radius in km
+     * @return Bounds (SouthWest and NorthEast LatLng coordinates)
+     */
+    public static LatLngBounds toBounds(double lat, double lon, double radius){
+
+        Log.i("YDS", "toBounds");
+        Log.i("YDS", "lat: " + lat);
+        Log.i("YDS", "lon: " + lon);
+        Log.i("YDS", "radius: " + radius);
+
+        LatLng center = new LatLng(lat, lon);
+        double radiusInMeters = radius * 1000;
+        double distanceFromCenterToCorner = radiusInMeters * Math.sqrt(2.0);
+
+        LatLng southwestCorner = SphericalUtil.computeOffset(center, distanceFromCenterToCorner, 225.0);
+        LatLng northeastCorner = SphericalUtil.computeOffset(center, distanceFromCenterToCorner, 45.0);
+
+        return new LatLngBounds(southwestCorner, northeastCorner);
+    }
 
 }

@@ -58,8 +58,6 @@ public class CommentListAdapter extends ArrayAdapter<Comment> {
         //Get displayed comment
         Comment comment = getItem(position);
 
-        Util.log(comment.text + " " + comment.reaction);
-
         if(comment != null){
 
             //Comment type

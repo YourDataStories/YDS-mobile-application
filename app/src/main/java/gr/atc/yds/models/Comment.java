@@ -54,8 +54,6 @@ public class Comment {
 
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         this.created = Util.convertTimestampToDate(timestamp);
-
-        Util.log("new comment: " + created);
     }
 
     //Like comment

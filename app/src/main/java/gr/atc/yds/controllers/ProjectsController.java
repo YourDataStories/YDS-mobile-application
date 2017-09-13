@@ -1,6 +1,7 @@
 package gr.atc.yds.controllers;
 
-import java.util.ArrayList;
+import com.google.android.gms.maps.model.LatLngBounds;
+
 import java.util.List;
 
 import gr.atc.yds.R;
@@ -25,40 +26,37 @@ public class ProjectsController {
     private int offset;
 
     //Search area
-    private double lat;
-    private double lon;
-    private double radius;
+    private LatLngBounds searchAreaBounds;
 
     public ProjectsController(){
-        offset = 0;
 
         //Default search area
-        this.lat = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_LAT));
-        this.lon = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_LON));
-        this.radius = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS));
+        double lat = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_LAT));
+        double lon = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_LON));
+        double radius = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS));
+        this.searchAreaBounds = Util.toBounds(lat, lon, radius);
+
+        //Init offset
+        this.offset = 0;
     }
 
     public void setSearchArea(double lat, double lon){
-
-        double radius = Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS));
-        setSearchArea(lat, lon, radius);
+        setSearchArea(lat, lon, Double.parseDouble(App.getContext().getResources().getString(R.string.DEFAULT_RADIUS_IN_KILOMETERS)));
     }
 
     public void setSearchArea(double lat, double lon, double radius){
+        setSearchArea(Util.toBounds(lat, lon, radius));
+    }
 
-        //Set new search area
-        this.lat = lat;
-        this.lon = lon;
-        this.radius = radius;
-
-        //Reset
-        offset = 0;
+    public void setSearchArea(LatLngBounds bounds){
+        this.searchAreaBounds = bounds;
+        this.offset = 0;
     }
 
     public void loadProjects(final ResponseListener responseListener){
 
         YDSApiClient client = YDSApiClient.getInstance();
-        client.getProjects(lat, lon, radius, offset, new YDSApiClient.ResponseListener() {
+        client.getProjects(searchAreaBounds.southwest, searchAreaBounds.northeast, offset, new YDSApiClient.ResponseListener() {
             @Override
             public void onSuccess(Object object) {
 

@@ -94,8 +94,6 @@ public class ProjectMapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        Util.log("onMapReady");
-
         initMap(googleMap);
         showProjectOnMap();
     }
@@ -139,8 +137,6 @@ public class ProjectMapFragment extends Fragment implements OnMapReadyCallback {
                     .addAll(projectPoints);
             map.addPolyline(polylineOptions);
         }
-
-
     }
 
 }

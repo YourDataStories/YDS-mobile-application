@@ -271,8 +271,6 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
             Integer rating = data.getExtras().getInt("rating");
             projectRated(rating);
-
-            Util.log("Project rated: " + rating);
         }
 
         //CommentActivity returned result
@@ -280,8 +278,6 @@ public class ProjectActivity extends PrivateActivity implements CommentListAdapt
 
             Comment comment = gson.fromJson(data.getExtras().getString("comment"), Comment.class);
             projectCommented(comment);
-
-            Util.log("Project commented: " + comment.text);
         }
 
         super.onActivityResult(requestCode, resultCode, data);

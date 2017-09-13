@@ -14,6 +14,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.HashSet;
 import java.util.List;
@@ -110,10 +111,10 @@ public class CloseProjectService extends Service {
                 @Override
                 public void onLocationUpdate(Location location) {
 
-                    Log.i("YDS", String.format("location: %f,%f %f", location.getLatitude(), location.getLongitude(), location.getSpeed()));
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
                     //Search for close project
-                    YDSApiClient.getInstance().getCloseProject(location.getLatitude(), location.getLongitude(), new Client.ResponseListener() {
+                    YDSApiClient.getInstance().getCloseProject(latLng, new Client.ResponseListener() {
                         @Override
                         public void onSuccess(Object object) {
 

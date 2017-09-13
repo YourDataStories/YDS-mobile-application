@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,13 +37,15 @@ import java.util.Map;
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.utils.Log;
 import gr.atc.yds.utils.Util;
 
 
-public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class ProjectsMapFragment extends Fragment implements ProjectsFragment, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
 
     public interface Listener {
         void onProjectMarkerClicked(Long projectID);
+        void onSearchButtonClicked(LatLngBounds bounds);
     }
 
     private Listener listener;
@@ -50,6 +54,7 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
     private Map<Marker,Project> projectMarkers;
     private View view;
     private GoogleMap map;
+    private LatLngBounds bounds;
 
     public static ProjectsMapFragment newInstance(String param1) {
 
@@ -72,8 +77,6 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
-        Util.log("onAttach ProjectsMapFragment");
 
         //Set listener
         if (context instanceof Listener) {
@@ -101,8 +104,6 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Util.log("onCreateView ProjectsMapFragment");
-
         //Init view
         view = inflater.inflate(R.layout.fragment_projects_map, container, false);
 
@@ -122,9 +123,8 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        Util.log("onMapReady");
-
         initMap(googleMap);
+        setListeners();
 
         //Show the current location icon
         if (ContextCompat.checkSelfPermission(App.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -143,14 +143,39 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
         return false;
     }
 
+    @Override
+    public void onCameraIdle() {
+        readBounds();
+    }
+
+
     /**
      * Adds new projects to map
      * @param projects list of projects that will be added to map
      */
+    @Override
     public void addProjects(List<Project> projects) {
 
-        for(Project project : projects)
+        for (Project project : projects)
             showProjectOnMap(project);
+    }
+
+    @Override
+    public void clearProjects() {
+
+        projects.clear();
+        projectMarkers.clear();
+        map.clear();
+
+    }
+
+    private void readBounds(){
+
+        if(map == null)
+            return;
+
+        bounds = map.getProjection().getVisibleRegion().latLngBounds;
+        Log.i("YDS", bounds.toString());
     }
 
     private void attachMap(){
@@ -172,14 +197,14 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
         map.moveCamera(center);
         map.animateCamera(zoom);
         map.setOnMarkerClickListener(this);
+        map.setOnCameraIdleListener(this);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(App.getContext(), R.raw.map_style));
 
+        readBounds();
     }
 
     //Draw project on map
     private void showProjectOnMap(Project project){
-
-        Util.log("showProjectOnMap");
 
         List<LatLng> points = project.getPoints();
 
@@ -210,6 +235,25 @@ public class ProjectsMapFragment extends Fragment implements OnMapReadyCallback,
         Marker marker = map.addMarker(new MarkerOptions().position(position).icon(icon));
         return marker;
 
+    }
+
+    /**
+     * Initializes UI event listeners
+     */
+    private void setListeners(){
+
+        //Search button clicked
+        Button searchButton = (Button) view.findViewById(R.id.fragmentProjectsMap_searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //TODO Check why it's not getting the last bounds
+
+                Log.i("YDS", bounds.toString());
+                listener.onSearchButtonClicked(bounds);
+            }
+        });
     }
 
 }

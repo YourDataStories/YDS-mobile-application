@@ -24,7 +24,7 @@ import gr.atc.yds.adapters.ProjectListAdapter;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
 
-public class ProjectsListFragment extends Fragment {
+public class ProjectsListFragment extends Fragment implements ProjectsFragment {
 
     public interface Listener {
         void onProjectItemClicked(Long projectID);
@@ -176,6 +176,7 @@ public class ProjectsListFragment extends Fragment {
      * Adds projects to ListView
      * @param newProjects list of new projects
      */
+    @Override
     public void addProjects(List<Project> newProjects){
 
         if(projects == null || projectListAdapter == null)
@@ -184,6 +185,19 @@ public class ProjectsListFragment extends Fragment {
         projects.addAll(newProjects);
         projectListAdapter.notifyDataSetChanged();
         scrolledToBottom = false;
+    }
+
+    /**
+     * Removes all projects from ListView
+     */
+    @Override
+    public void clearProjects(){
+
+        if(projects == null || projectListAdapter == null)
+            return;
+
+        projects.clear();
+        projectListAdapter.notifyDataSetChanged();
     }
 
     /**

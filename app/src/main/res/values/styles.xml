@@ -39,6 +39,12 @@
         <item name="android:minHeight">37dp</item>
     </style>
 
+    <!-- Glass button -->
+    <style name="GlassButton">
+        <item name="android:background">@drawable/shape_glass_button</item>
+        <item name="android:minHeight">37dp</item>
+    </style>
+
     <!-- Small label -->
     <style name="SmallLabel">
         <item name="android:textSize">12sp</item>

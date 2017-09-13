@@ -1,5 +1,6 @@
 package gr.atc.yds.clients;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -14,7 +15,7 @@ import gr.atc.yds.enums.Message;
 import gr.atc.yds.models.Comment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.models.ProjectDetails;
-import gr.atc.yds.utils.Util;
+import gr.atc.yds.utils.Log;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -43,11 +44,11 @@ public class YDSApiClient extends Client{
 
         //Get projects
         @GET("getProjects")
-        Call<ResponseBody> getProjects(@Query("lat") double lat, @Query("lon") double lon, @Query("radius") double radius, @Query("start") int offset);
+        Call<ResponseBody> getProjects(@Query("pt1") String southWest, @Query("pt2") String northEast, @Query("start") int offset);
 
         //Get close project
         @GET("getCloseProject")
-        Call<ResponseBody> getCloseProject(@Query("lat") double lat, @Query("lon") double lon);
+        Call<ResponseBody> getCloseProject(@Query("pt") String latLng);
 
         //Get project details
         @GET("getProjectDetails")
@@ -136,9 +137,14 @@ public class YDSApiClient extends Client{
     }
 
     //Get projects
-    public void getProjects(double lat, double lon, double radius, int offset, final ResponseListener responseListener){
+    public void getProjects(LatLng southWest, LatLng northEast, int offset, final ResponseListener responseListener){
 
-        Call<ResponseBody> call = service.getProjects(lat, lon, radius, offset);
+        String pt1 = toString(southWest);
+        String pt2 = toString(northEast);
+
+        Log.i("YDS", "getProjects: " + pt1 + ", " + pt2);
+
+        Call<ResponseBody> call = service.getProjects(pt1, pt2, offset);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -176,9 +182,11 @@ public class YDSApiClient extends Client{
     }
 
     //Get close project
-    public void getCloseProject(double lat, double lon, final ResponseListener responseListener){
+    public void getCloseProject(LatLng center, final ResponseListener responseListener){
 
-        Call<ResponseBody> call = service.getCloseProject(lat, lon);
+        String pt = toString(center);
+
+        Call<ResponseBody> call = service.getCloseProject(pt);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -329,12 +337,10 @@ public class YDSApiClient extends Client{
         CommentProjectRequestBody commentProjectRequestBody = new CommentProjectRequestBody(projectId, comment);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), gson.toJson(commentProjectRequestBody));
 
-        Util.log("request: " + gson.toJson(commentProjectRequestBody));
-
         Call<ResponseBody> call = service.commentProject(requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { Util.log("response: " + gson.toJson(response));
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 //Http == 200
                 if (response.isSuccessful())
@@ -359,12 +365,10 @@ public class YDSApiClient extends Client{
         ReactToCommentRequestBody reactToCommentRequestBody = new ReactToCommentRequestBody(commentId, Comment.Reaction.like, username);
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), gson.toJson(reactToCommentRequestBody));
 
-        Util.log("request: " + gson.toJson(reactToCommentRequestBody));
-
         Call<ResponseBody> call = service.reactToComment(requestBody);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) { Util.log("response: " + gson.toJson(response));
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 //Http == 200
                 if (response.isSuccessful())
@@ -408,5 +412,16 @@ public class YDSApiClient extends Client{
                 handleFailure(t, responseListener);
             }
         });
+    }
+
+    /**
+     * Converts LatLng point to string
+     * @param point LatLng point
+     * @return string format
+     */
+    private String toString(LatLng point){
+
+        return String.format("%f %f", point.longitude, point.latitude);
+
     }
 }

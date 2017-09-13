@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -197,6 +198,20 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
         //Show project details
         startProjectActivity(projectId);
+    }
+
+    @Override
+    public void onSearchButtonClicked(LatLngBounds bounds) {
+
+        if(projectsListFragment != null)
+            projectsListFragment.clearProjects();
+
+        if(projectsMapFragment != null)
+            projectsMapFragment.clearProjects();
+
+        projects.clear();
+        projectsController.setSearchArea(bounds);
+        loadProjects();
     }
 
     @Override

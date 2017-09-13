@@ -127,5 +127,14 @@
         sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
         <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8cc8c26cb1c27aead792cac6dd7bf3053267d7ca/classes.dex" />
     </item>
+    <item
+        is-multidex="true"
+        jar="/Users/ipapas/.android/build-cache/d0cf855294d44c4d158815f7b8db364b0fff92a0/output/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.0"
+        sha1="6f57b76211a1d7b0c1f18873af59faad95664681">
+        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_61b286771f5596ad54898362bc7569bd721bc7a6/classes.dex" />
+    </item>
 
 </items>
