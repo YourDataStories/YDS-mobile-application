@@ -18,18 +18,16 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
     <!-- List fragment -->
-    <fragment
+    <FrameLayout
         android:id="@+id/activityHome_listFragment"
-        android:name="gr.atc.yds.fragments.ProjectsListFragment"
         android:layout_below="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout="@layout/fragment_projects_list"/>
 
     <!-- Map fragment -->
-    <fragment
+    <FrameLayout
         android:id="@+id/activityHome_mapFragment"
-        android:name="gr.atc.yds.fragments.ProjectsMapFragment"
         android:layout_below="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

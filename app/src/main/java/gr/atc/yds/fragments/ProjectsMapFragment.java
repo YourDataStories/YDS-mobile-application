@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
@@ -38,10 +36,9 @@ import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Log;
-import gr.atc.yds.utils.Util;
 
 
-public class ProjectsMapFragment extends Fragment implements ProjectsFragment, OnMapReadyCallback, GoogleMap.OnMarkerClickListener, GoogleMap.OnCameraIdleListener {
+public class ProjectsMapFragment extends Fragment implements ProjectsFragment, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{
 
     public interface Listener {
         void onProjectMarkerClicked(Long projectID);
@@ -54,7 +51,6 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
     private Map<Marker,Project> projectMarkers;
     private View view;
     private GoogleMap map;
-    private LatLngBounds bounds;
 
     public static ProjectsMapFragment newInstance(String param1) {
 
@@ -113,7 +109,6 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
         return view;
     }
 
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -124,7 +119,7 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
     public void onMapReady(GoogleMap googleMap) {
 
         initMap(googleMap);
-        setListeners();
+        initListeners();
 
         //Show the current location icon
         if (ContextCompat.checkSelfPermission(App.getContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
@@ -142,12 +137,6 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
 
         return false;
     }
-
-    @Override
-    public void onCameraIdle() {
-        readBounds();
-    }
-
 
     /**
      * Adds new projects to map
@@ -169,15 +158,6 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
 
     }
 
-    private void readBounds(){
-
-        if(map == null)
-            return;
-
-        bounds = map.getProjection().getVisibleRegion().latLngBounds;
-        Log.i("YDS", bounds.toString());
-    }
-
     private void attachMap(){
 
         SupportMapFragment mapFragment = SupportMapFragment.newInstance();
@@ -197,10 +177,7 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
         map.moveCamera(center);
         map.animateCamera(zoom);
         map.setOnMarkerClickListener(this);
-        map.setOnCameraIdleListener(this);
         map.setMapStyle(MapStyleOptions.loadRawResourceStyle(App.getContext(), R.raw.map_style));
-
-        readBounds();
     }
 
     //Draw project on map
@@ -240,18 +217,20 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
     /**
      * Initializes UI event listeners
      */
-    private void setListeners(){
+    private void initListeners(){
 
         //Search button clicked
         Button searchButton = (Button) view.findViewById(R.id.fragmentProjectsMap_searchButton);
         searchButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
-                //TODO Check why it's not getting the last bounds
-
-                Log.i("YDS", bounds.toString());
-                listener.onSearchButtonClicked(bounds);
+                //Get map bounds
+                if(map != null) {
+                    LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
+                    listener.onSearchButtonClicked(bounds);
+                }
             }
         });
     }

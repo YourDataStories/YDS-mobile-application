@@ -113,10 +113,8 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         //Set title
         setTitle(getString(R.string.activityHomeTitle));
 
-        listFragmentContainer = findViewById(R.id.activityHome_listFragment);
-        mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
-
         //Attach project list fragment
+        listFragmentContainer = findViewById(R.id.activityHome_listFragment);
         projectsListFragment = ProjectsListFragment.newInstance(gson.toJson(projects));
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
@@ -124,6 +122,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         ft.commit();
 
         //Attach project map fragment
+        mapFragmentContainer = findViewById(R.id.activityHome_mapFragment);
         projectsMapFragment = ProjectsMapFragment.newInstance(gson.toJson(projects));
         FragmentManager fm2 = getSupportFragmentManager();
         FragmentTransaction ft2 = fm2.beginTransaction();
