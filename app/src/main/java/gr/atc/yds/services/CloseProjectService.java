@@ -39,6 +39,7 @@ public class CloseProjectService extends Service {
     private int locationInterval;
     private int locationFastestInterval;
     private int locationPriority;
+    private int foundCloseProjectsListSize;
 
     //Keep list of found close projects, so if server returns again the same project, the application doesn't show notification
     private Set<Long> foundCloseProjectIDs;
@@ -69,6 +70,7 @@ public class CloseProjectService extends Service {
         foundCloseProjectIDs = new HashSet<>();
         locationInterval = getResources().getInteger(R.integer.LOCATION_INTERVAL_MILLIS);
         locationFastestInterval = getResources().getInteger(R.integer.LOCATION_FASTEST_INTERVAL_MILLIS);
+        foundCloseProjectsListSize = getResources().getInteger(R.integer.CLOSE_PROJECTS_LIST_SIZE);
         locationPriority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
     }
 
@@ -154,6 +156,10 @@ public class CloseProjectService extends Service {
 
         //Show notification only if the close project is the first time that is loaded
         if(!foundCloseProjectIDs.contains(project.projectId)){
+
+            //Clear the list of the found closed projects if it's too large, in order to free memory
+            if(foundCloseProjectIDs.size() > foundCloseProjectsListSize)
+                foundCloseProjectIDs.clear();
 
             foundCloseProjectIDs.add(project.projectId);
             NotificationsManager.getInstance().showCloseProjectNotification(project.projectId, project.getTitle());

@@ -31,6 +31,7 @@ import com.google.gson.reflect.TypeToken;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
@@ -147,6 +148,9 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
 
         for (Project project : projects)
             showProjectOnMap(project);
+
+        //Move map to show add projects
+        setBounds(map, projectMarkers.keySet());
     }
 
     @Override
@@ -156,6 +160,41 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
         projectMarkers.clear();
         map.clear();
 
+    }
+
+    /**
+     * Gets bounds (SouthWest and NorthEast coordinates) of google map
+     * @param map google map
+     * @return bounds (SouthWest and NorthEast coordinates) of google map
+     */
+    private LatLngBounds getBounds(GoogleMap map){
+
+        if(map == null)
+            return null;
+
+        return map.getProjection().getVisibleRegion().latLngBounds;
+    }
+
+    /**
+     * Set bounds (SouthWest and NorthEast coordinates) of google map, in order to show all the markers
+     * @param map google map
+     * @param markers set of markers that are inside the bounds
+     */
+    private void setBounds(GoogleMap map, Set<Marker> markers){
+
+        if(map == null || markers.size() == 0)
+            return;
+
+        //Calculate bounds
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        for (Marker marker : markers)
+            builder.include(marker.getPosition());
+        LatLngBounds bounds = builder.build();
+
+        //Move camera to bounds
+        int padding = 150; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        map.animateCamera(cu);
     }
 
     private void attachMap(){
@@ -227,10 +266,9 @@ public class ProjectsMapFragment extends Fragment implements ProjectsFragment, O
             public void onClick(View view) {
 
                 //Get map bounds
-                if(map != null) {
-                    LatLngBounds bounds = map.getProjection().getVisibleRegion().latLngBounds;
-                    listener.onSearchButtonClicked(bounds);
-                }
+                LatLngBounds bounds = getBounds(map);
+                listener.onSearchButtonClicked(bounds);
+
             }
         });
     }

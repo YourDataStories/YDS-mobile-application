@@ -28,6 +28,7 @@ import java.util.List;
 import gr.atc.yds.R;
 import gr.atc.yds.clients.YDSApiClient;
 import gr.atc.yds.controllers.LocationTracker;
+import gr.atc.yds.controllers.NotificationsManager;
 import gr.atc.yds.controllers.ProjectsController;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.enums.ViewMode;
@@ -45,7 +46,7 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     private static final int REQUEST_LOCATION_PERMISSION = 2;
 
     private List<Project> projects = new ArrayList<>();
-    private Gson gson = new Gson();;
+    private Gson gson = new Gson();
     private ViewMode viewMode;
     private View listFragmentContainer;
     private View mapFragmentContainer;
@@ -128,7 +129,6 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
         FragmentTransaction ft2 = fm2.beginTransaction();
         ft2.replace(R.id.activityHome_mapFragment, projectsMapFragment);
         ft2.commit();
-
     }
 
     @Override
@@ -201,6 +201,9 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
 
     @Override
     public void onSearchButtonClicked(LatLngBounds bounds) {
+
+        if(bounds == null)
+            return;
 
         if(projectsListFragment != null)
             projectsListFragment.clearProjects();

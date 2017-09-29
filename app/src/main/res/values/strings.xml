@@ -25,7 +25,7 @@
         \n\n<a href="http://platform.yourdatastories.eu/privacy-notice/">Privacy Policy</a>
     </string>
     <string name="notificationCloseProjectTitle">You are near project</string>
-    <string name="notificationCloseProjectText">Let\'s rate it!</string>
+    <string name="notificationCloseProjectText">View details and leave a comment</string>
 
 
     <!-- Toast messages -->
