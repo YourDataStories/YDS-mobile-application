@@ -37,13 +37,14 @@
 
     <!-- No results message -->
     <TextView
+        android:id="@+id/noResultsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/noResultsTextView"
-        android:visibility="invisible"
-        android:text="@string/noProjectsFound"
+        android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text="@string/noAvailableProjects"
+        android:textSize="18sp"
+        android:visibility="invisible" />
 
     <!-- Loader -->
     <ProgressBar

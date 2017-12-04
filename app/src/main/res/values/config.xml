@@ -8,10 +8,11 @@
     <string name="CURRENCY">€</string>
     <integer name="COLLAPSED_DESCRIPTION_LENGTH">120</integer>
     <string name="DATE_TIME_FORMAT">yyyy-MM-dd\'T\'HH:mm:ss\'Z\'</string>
+    <integer name="PROJECT_MAP_ZOOM">9</integer>
 
     <!-- Close projects tracking -->
-    <integer name="LOCATION_INTERVAL_MILLIS">10000</integer>
-    <integer name="LOCATION_FASTEST_INTERVAL_MILLIS">10000</integer>
+    <integer name="LOCATION_INTERVAL_MILLIS">300000</integer>
+    <integer name="LOCATION_FASTEST_INTERVAL_MILLIS">300000</integer>
     <integer name="CLOSE_PROJECTS_LIST_SIZE">500</integer>
 
     <!-- If device's location is not available, search for projects inside this area -->

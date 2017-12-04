@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
@@ -26,9 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import gr.atc.yds.R;
-import gr.atc.yds.clients.YDSApiClient;
 import gr.atc.yds.controllers.LocationTracker;
-import gr.atc.yds.controllers.NotificationsManager;
 import gr.atc.yds.controllers.ProjectsController;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.enums.ViewMode;
@@ -37,8 +36,6 @@ import gr.atc.yds.fragments.ProjectsMapFragment;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.services.CloseProjectService;
 import gr.atc.yds.utils.Util;
-
-import static android.R.id.message;
 
 public class HomeActivity extends PrivateActivity implements ProjectsListFragment.Listener, ProjectsMapFragment.Listener {
 
@@ -342,6 +339,14 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     //Show projects (inside fragments)
     private void showProjects(List<Project> projects){
 
+        if(this.projects.size() == 0 && projects.size() == 0){
+            showNoResultsMessage();
+            return;
+        }
+
+        this.projects.addAll(projects);
+        hideNoResultsMessage();
+
         showProjectsInListFragment(projects);
         showProjectsInMapFragment(projects);
     }
@@ -368,5 +373,17 @@ public class HomeActivity extends PrivateActivity implements ProjectsListFragmen
     private void hideLoader(){
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.activityHome_progressBar);
         progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    //Shows 'No projects found' message
+    private void showNoResultsMessage(){
+        TextView noResults = (TextView) findViewById(R.id.noResultsTextView);
+        noResults.setVisibility(View.VISIBLE);
+    }
+
+    //Hides 'No projects found' message
+    private void hideNoResultsMessage() {
+        TextView noResults = (TextView) findViewById(R.id.noResultsTextView);
+        noResults.setVisibility(View.INVISIBLE);
     }
 }

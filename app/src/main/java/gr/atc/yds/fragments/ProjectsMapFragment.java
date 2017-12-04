@@ -37,6 +37,7 @@ import gr.atc.yds.R;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Log;
+import gr.atc.yds.utils.Util;
 
 
 public class ProjectsMapFragment extends Fragment implements ProjectsFragment, OnMapReadyCallback, GoogleMap.OnMarkerClickListener{

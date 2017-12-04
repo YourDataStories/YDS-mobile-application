@@ -23,6 +23,7 @@ import gr.atc.yds.R;
 import gr.atc.yds.adapters.ProjectListAdapter;
 import gr.atc.yds.controllers.App;
 import gr.atc.yds.models.Project;
+import gr.atc.yds.utils.Util;
 
 public class ProjectsListFragment extends Fragment implements ProjectsFragment {
 

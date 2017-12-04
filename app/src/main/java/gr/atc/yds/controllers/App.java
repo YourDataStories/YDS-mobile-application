@@ -50,7 +50,4 @@ public class App extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
         ImageLoader.getInstance().init(config);
     }
-
-
-
 }

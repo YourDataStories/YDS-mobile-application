@@ -15,7 +15,9 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +27,7 @@ import gr.atc.yds.clients.Client;
 import gr.atc.yds.clients.YDSApiClient;
 import gr.atc.yds.controllers.LocationTracker;
 import gr.atc.yds.controllers.NotificationsManager;
+import gr.atc.yds.controllers.StorageController;
 import gr.atc.yds.enums.Message;
 import gr.atc.yds.models.Project;
 import gr.atc.yds.utils.Log;
@@ -34,12 +37,14 @@ import gr.atc.yds.utils.Log;
  */
 public class CloseProjectService extends Service {
 
+    private StorageController storageController;
     private LocationTracker locationTracker;
     private boolean searchingForCloseProjectStarted = false;
     private int locationInterval;
     private int locationFastestInterval;
     private int locationPriority;
     private int foundCloseProjectsListSize;
+    private static final String FOUND_CLOSE_PROJECTS_KEY = "foundCloseProjects";
 
     //Keep list of found close projects, so if server returns again the same project, the application doesn't show notification
     private Set<Long> foundCloseProjectIDs;
@@ -66,6 +71,7 @@ public class CloseProjectService extends Service {
         super.onCreate();
         Log.i("YDS", "CloseProjectService created");
 
+        storageController = StorageController.getInstance();
         locationTracker = new LocationTracker();
         foundCloseProjectIDs = new HashSet<>();
         locationInterval = getResources().getInteger(R.integer.LOCATION_INTERVAL_MILLIS);
@@ -77,6 +83,9 @@ public class CloseProjectService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("YDS", "CloseProjectService started");
+
+        //Load
+        loadData();
 
         //Start searching for close project
         startSearchingForCloseProject();
@@ -91,6 +100,19 @@ public class CloseProjectService extends Service {
 
         //Stop searching for close project
         stopSearchingForCloseProject();
+
+        //Save
+        saveData();
+
+    }
+
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        Log.i("YDS", "CloseProjectService removed");
+
+        //Save
+        saveData();
     }
 
     @Override
@@ -164,7 +186,23 @@ public class CloseProjectService extends Service {
             foundCloseProjectIDs.add(project.projectId);
             NotificationsManager.getInstance().showCloseProjectNotification(project.projectId, project.getTitle());
         }
+    }
 
+    /**
+     * Saves data in storage when service stops
+     */
+    private void saveData() {
+
+        storageController.saveData(FOUND_CLOSE_PROJECTS_KEY, foundCloseProjectIDs);
+    }
+
+    /**
+     * Loads data from storage when service starts
+     */
+    private void loadData() {
+
+        if(storageController.dataExists(FOUND_CLOSE_PROJECTS_KEY))
+            foundCloseProjectIDs = (Set) storageController.loadData(FOUND_CLOSE_PROJECTS_KEY, new TypeToken<Set<Long>>(){}.getType());
     }
 }
 

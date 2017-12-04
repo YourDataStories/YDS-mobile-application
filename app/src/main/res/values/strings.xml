@@ -34,7 +34,8 @@
     <string name="noInternetConnection">Check your internet connection</string>
     <string name="timeOut">The server doesn\'t respond</string>
     <string name="passwordAndConfirmDontMatch">Password and confirm are not the same</string>
-    <string name="noProjectsFound">No available projects</string>
+    <string name="passwordVeryShort">Password must be at least 6 characters long</string>
+    <string name="noAvailableProjects">No available projects</string>
     <string name="alreadyReacted">You have already reacted to this comment</string>
     <string name="usernameIsTaken">The username is already taken</string>
 

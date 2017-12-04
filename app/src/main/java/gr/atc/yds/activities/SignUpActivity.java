@@ -52,39 +52,43 @@ public class SignUpActivity extends AppCompatActivity {
                 confirmPassword = signUpConfirmPassword.getText().toString();
 
                 //Check if the required fields have been completed by the user
-                if (Form.allFieldsAreCompleted(signUpUsername, signUpPassword, signUpConfirmPassword)) {
+                if (!Form.allFieldsAreCompleted(signUpUsername, signUpPassword, signUpConfirmPassword))
+                    return;
 
-                    //Check if password and confirm are the same
-                    if(password.equals(confirmPassword)){
-
-                        //Sign up
-                        showLoader();
-                        Authenticator auth = Authenticator.getInstance();
-                        auth.signUp(username, password, new Authenticator.ResponseListener() {
-                            @Override
-                            public void onSuccess() {
-
-                                hideLoader();
-
-                                //Start HomeActivity
-                                Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
-                                startActivity(i);
-                                finish();
-
-                            }
-
-                            @Override
-                            public void onFailure(Message message) {
-                                hideLoader();
-                                Util.showToast(message);
-                            }
-                        });
-                    }
-                    else
-                        Util.showToast(App.getContext().getString(R.string.passwordAndConfirmDontMatch));
-
+                //Check if password is at least 6 characters long
+                if(password.length() < 6){
+                    Util.showToast(App.getContext().getString(R.string.passwordVeryShort));
+                    return;
                 }
 
+                //Check if password and confirm are the same
+                if(!password.equals(confirmPassword)){
+                    Util.showToast(App.getContext().getString(R.string.passwordAndConfirmDontMatch));
+                    return;
+                }
+
+                //Sign up
+                showLoader();
+                Authenticator auth = Authenticator.getInstance();
+                auth.signUp(username, password, new Authenticator.ResponseListener() {
+                    @Override
+                    public void onSuccess() {
+
+                        hideLoader();
+
+                        //Start HomeActivity
+                        Intent i = new Intent(SignUpActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+
+                    }
+
+                    @Override
+                    public void onFailure(Message message) {
+                        hideLoader();
+                        Util.showToast(message);
+                    }
+                });
             }
         });
 

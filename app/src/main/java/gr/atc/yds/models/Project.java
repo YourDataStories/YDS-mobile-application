@@ -30,7 +30,7 @@ public class Project {
     //Get title
     public String getTitle(){
 
-        if(title_en != null)
+        if(title_en != null && !title_en.equals("no english title"))
             return title_en;
 
         if(title_el != null)

@@ -11,6 +11,7 @@ public class Authenticator {
 
     private static Authenticator authenticator = null;
     private StorageController storage;
+    private static final String TOKEN_KEY = "token";
 
     private Authenticator(){
         storage = StorageController.getInstance();
@@ -33,7 +34,7 @@ public class Authenticator {
     public boolean isUserLoggedIn(){
 
         //Get potential saved token
-        Token token = (Token) storage.loadData("token", Token.class);
+        Token token = (Token) storage.loadData(TOKEN_KEY, Token.class);
 
         //Token does not exist
         if(token == null)
@@ -54,7 +55,7 @@ public class Authenticator {
 
         if(isUserLoggedIn()){
 
-            Token token = (Token) storage.loadData("token", Token.class);
+            Token token = (Token) storage.loadData(TOKEN_KEY, Token.class);
             return token.owner;
         }
 
@@ -73,7 +74,7 @@ public class Authenticator {
                 //Save token
                 Token token = (Token) object;
                 StorageController storage = StorageController.getInstance();
-                storage.saveData("token", token);
+                storage.saveData(TOKEN_KEY, token);
 
                 responseListener.onSuccess();
             }
@@ -90,7 +91,7 @@ public class Authenticator {
 
         //Delete saved token
         StorageController storage = StorageController.getInstance();
-        storage.deleteData("token");
+        storage.deleteData(TOKEN_KEY);
     }
     public void signOut(final ResponseListener responseListener){
 

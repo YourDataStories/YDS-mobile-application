@@ -104,7 +104,7 @@ public class ProjectMapFragment extends Fragment implements OnMapReadyCallback {
             return;
 
         CameraUpdate center = CameraUpdateFactory.newLatLng(projectPoints.get(projectPoints.size()/2));
-        CameraUpdate zoom = CameraUpdateFactory.zoomTo(7);
+        CameraUpdate zoom = CameraUpdateFactory.zoomTo(getResources().getInteger(R.integer.PROJECT_MAP_ZOOM));
 
         map = googleMap;
         map.moveCamera(center);

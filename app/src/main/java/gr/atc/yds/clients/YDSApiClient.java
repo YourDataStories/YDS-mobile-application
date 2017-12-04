@@ -44,11 +44,11 @@ public class YDSApiClient extends Client{
 
         //Get projects
         @GET("getProjects")
-        Call<ResponseBody> getProjects(@Query("pt1") String southWest, @Query("pt2") String northEast, @Query("start") int offset);
+        Call<ResponseBody> getProjects(@Query("pt") String southWest, @Query("pt2") String northEast, @Query("start") int offset);
 
         //Get close project
-        @GET("getCloseProject")
-        Call<ResponseBody> getCloseProject(@Query("pt") String latLng);
+        @GET("getClosestProjects")
+        Call<ResponseBody> getCloseProject(@Query("lat") Double lat, @Query("lon") Double lon);
 
         //Get project details
         @GET("getProjectDetails")
@@ -139,10 +139,11 @@ public class YDSApiClient extends Client{
     //Get projects
     public void getProjects(LatLng southWest, LatLng northEast, int offset, final ResponseListener responseListener){
 
-        String pt1 = toString(southWest);
-        String pt2 = toString(northEast);
+        String pt1 = stringifyPoint(southWest);
+        String pt2 = stringifyPoint(northEast);
 
-        Log.i("YDS", "getProjects: " + pt1 + ", " + pt2);
+        Log.i("YDS", "pt1: " + pt1);
+        Log.i("YDS", "pt2: " + pt2);
 
         Call<ResponseBody> call = service.getProjects(pt1, pt2, offset);
         call.enqueue(new Callback<ResponseBody>() {
@@ -157,10 +158,11 @@ public class YDSApiClient extends Client{
                         //Get projects
                         JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
                         String projectsString = responseBodyJSONObject.getString("docs");
-                        List<Project> projects = gson.fromJson(projectsString, new TypeToken<List<Project>>(){}.getType());
+                        List<Project> projects = new ArrayList<>();
+                        if(!projectsString.equals("null"))
+                            projects = gson.fromJson(projectsString, new TypeToken<List<Project>>(){}.getType());
 
                         responseListener.onSuccess(projects);
-
                     }
 
                     //Http != 200
@@ -184,9 +186,9 @@ public class YDSApiClient extends Client{
     //Get close project
     public void getCloseProject(LatLng center, final ResponseListener responseListener){
 
-        String pt = toString(center);
+        Log.i("YDS", "find closest project to point: " + stringifyPoint(center));
 
-        Call<ResponseBody> call = service.getCloseProject(pt);
+        Call<ResponseBody> call = service.getCloseProject(center.latitude, center.longitude);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -196,13 +198,23 @@ public class YDSApiClient extends Client{
                     //Http == 200
                     if (response.isSuccessful()) {
 
-                        //TODO Get project's ID and name
-                        JSONObject responseBodyJSONObject = new JSONObject(response.body().string());
-                        String projectString = responseBodyJSONObject.getString("docs");
-                        Project project = gson.fromJson(projectString, Project.class);
+                        JSONObject responseBodyJSON = new JSONObject(response.body().string());
+                        JSONObject projectJSON = responseBodyJSON.getJSONObject("closestProject");
 
-                        responseListener.onSuccess(project);
+                        //Found close project
+                        if(projectJSON != null){
 
+                            Project project = new Project();
+                            project.projectId = projectJSON.getLong("projectId");
+                            project.title_el = projectJSON.getString("titleEl");
+                            project.title_en = projectJSON.getString("titleEn");
+
+                            responseListener.onSuccess(project);
+                        }
+
+                        //NOT found close project
+                        else
+                            responseListener.onFailure(Message.NO_CLOSE_PROJECT);
                     }
 
                     //Http != 200
@@ -419,7 +431,7 @@ public class YDSApiClient extends Client{
      * @param point LatLng point
      * @return string format
      */
-    private String toString(LatLng point){
+    private String stringifyPoint(LatLng point){
 
         return String.format("%f %f", point.longitude, point.latitude);
 

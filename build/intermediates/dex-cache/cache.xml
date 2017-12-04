@@ -3,21 +3,12 @@
 
     <item
         is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/82452c41280f53d3bdb86ba69286972db21f7b85/output/jars/classes.jar"
+        jar="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.0"
-        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_eb22f618025ca9591d2062ca3fe6b401ab0bcfd8/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/cf450d2eb8bd518181ef3d0ac82c4e7aba34e7af/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="240e5a7c620376184f3168cfdd36315b97b1fe07">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_7985d2567b6a9921eeaf67e187d93403ea299f54/classes.dex" />
+        sha1="690cb70c7660c3af7d6f1507222a96968cceca52">
+        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_2c678e397835d06ec7e157fe8e3e1b685dc93ede/classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -27,114 +18,6 @@
         revision="25.0.0"
         sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
         <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_281d2d01cc8ca6bcbf101b88a00e00e1f4ccddad/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/ef4c4928b3c38180c5a9db6efeaa7bc420c62c16/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="67eb33110dbacb46a48175b08ae0c96761d2c17d">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_b4e50416e132e1391bb3420de81d91ff02f93742/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/07b5f56f233c3876e20e764bff7ad5b1f66a0117/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="86baa7d1051901fc1b8e7f596732f71f32175bde">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_56754da290575c5fb4f15de001ef8caeaf8a589f/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/477ad163806168edde056d14625dc5a39f08c8b5/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="fa0446a14ed5dd3725047d6399ffea771a564b30">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_d71f5b02e95b12777938a60b041ec1fa2264143d/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/61544be11c761e6744a50342a63ad50fbb8f5fec/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="ee394a892dd21c03a528139c1e8d4e0e1264ac84">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_99e1ed6bac922939f0160817446c26b78f60f7e1/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/70939fa8c4a4afe9e3cef46be427c4bc0138aa97/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="db939a450ea2a721db84e774bf108e20c44a8a1d">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_569ca5c60acaa1d5b52e08a9608816e28db1404d/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/cd218284044e689f2dc0e14a6678c8ce315c3d45/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="a71be5f29a1c1e3fd3e84472742668f101a5b936">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_733a192bf931e20cda97ef5f206a694fa4f28990/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6ad7abc779c12661fe6136512eb10f85ba68d0a1">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_2c678e397835d06ec7e157fe8e3e1b685dc93ede/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.2.0/support-annotations-25.2.0.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="4a5a82a027706397fff621b22fd6fa796e91d7c5">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.2.0_e05ff17b225e7f839e3b7c8ff0cd56e337f68562/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/93c9e1c9e0dbd5904619d5405d7a79d60350aa10/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="e820b7be8c035dd522da4bc822e8a76c8e27921a">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_6e6d615187a352d06f3c4c8e8e0507b1b69dcd39/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/cc1a8c597eb97b91cddfef2682302dae1284f412/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="2a2d9cd43adbe7599a78f2293273a77881c1909a">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_e93941b15ad5610a201db34daafb4d2cb7cb4098/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/a4d1f9a303e135928de75400d9a51d662aa0af9d/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="8fe8a8f77d651982ce5e18f6187dc4daf914ac57">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_8cc8c26cb1c27aead792cac6dd7bf3053267d7ca/classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="/Users/ipapas/.android/build-cache/d0cf855294d44c4d158815f7b8db364b0fff92a0/output/jars/classes.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.0"
-        sha1="6f57b76211a1d7b0c1f18873af59faad95664681">
-        <dex dex="/Users/ipapas/AndroidStudioProjects/YDS/app/build/intermediates/transforms/dex/debug/folders/1000/10/classes_61b286771f5596ad54898362bc7569bd721bc7a6/classes.dex" />
     </item>
 
 </items>
